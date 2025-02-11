@@ -26,7 +26,7 @@ const SocialLogin = () => {
           created: new Date(),
           version: " ",
           school: " ",
-
+          phone: " ",
 
 
         };

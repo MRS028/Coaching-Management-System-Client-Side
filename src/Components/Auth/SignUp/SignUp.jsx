@@ -76,6 +76,7 @@ const SignUp = () => {
               school: data.school,
               version: data.language,
               created: new Date(),
+              phone: data.phone
             };
             console.log(userInfo);
 
@@ -259,7 +260,8 @@ const SignUp = () => {
                 {...register("school", { required: "School name is required" })}
               >
                 <option value="">Select your school</option>
-                <option value="teacher or gaurdian" className="text-red-500 font-semibold">Teacher or Gaurdian</option>
+                <option value="teacher" className="text-red-500 font-semibold">Teacher</option>
+                
                 <option value="BPATC School & College">
                   BPATC School & College
                 </option>
@@ -294,7 +296,8 @@ const SignUp = () => {
                 {...register("class", { required: "Class is required" })}
               >
                 <option value="">Select your class</option>
-                  <option value="teacher or gaurdian" className="text-red-500 font-semibold">Teacher or Gaurdian</option>
+                <option value="teacher" className="text-red-500 font-semibold">Teacher</option>
+        
 
                 {[...Array(10).keys()].map((i) => (
                   <>
@@ -331,7 +334,7 @@ const SignUp = () => {
                 })}
               >
                 <option value="">Select language version</option>
-                <option value="teacher or gaurdian" className="text-red-500 font-semibold">Teacher or Gaurdian</option>
+                <option value="teacher" className="text-red-500 font-semibold">Teacher</option>
                 <option value="english">English</option>
                 <option value="bangla">Bangla</option>
               </select>
