@@ -59,7 +59,7 @@ const SignUp = () => {
     });
 
     const photoURL = res.data?.data?.display_url;
-    console.log();
+    //console.log();
 
     createUser(data.email, data.password)
       .then((result) => {

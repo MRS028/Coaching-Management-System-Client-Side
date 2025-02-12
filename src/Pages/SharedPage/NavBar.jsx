@@ -49,7 +49,7 @@ const NavBar = () => {
 
   const links = (
     <ul className="flex space-x-6">
-      <li className="pt-3">
+      <li className="pt-2">
         <NavLink
           to="/"
           className={({ isActive }) =>
@@ -61,7 +61,7 @@ const NavBar = () => {
           হোম পেইজ
         </NavLink>
       </li>
-      <li className="pt-3">
+      <li className="pt-2">
         <NavLink
           to="/courses"
           className={({ isActive }) =>
@@ -73,7 +73,7 @@ const NavBar = () => {
           কোর্স সমূহ
         </NavLink>
       </li>
-      <li className="pt-3">
+      <li className="pt-2">
         <NavLink
           to="/contact"
           className={({ isActive }) =>
@@ -91,9 +91,9 @@ const NavBar = () => {
             <div className="flex items-center space-x-2">
               <div className="relative ">
                 <img
-                  src={user?.photoURL || "default-image-url.jpg"}
+                  src={user?.photoURL || "https://i.ibb.co.com/XLq7gMH/Sample-User-Icon.png"}
                   alt="User Profile"
-                  className="w-10 h-10 rounded-full border-2 border-gray-300"
+                  className="w-9 h-9 rounded-full border-gray-300"
                 />
                 <span className="overflow-hidden absolute bottom-[-15px] left-0 w-full h-auto bg-black opacity-0 hover:opacity-75 flex justify-center items-center text-white rounded-lg py-1">
                   <span className="text-xs">{user?.displayName || "Name"}</span>
@@ -101,9 +101,9 @@ const NavBar = () => {
               </div>
               <button
                 onClick={handleLogOut}
-                className="btn border-none text-2xl btn-lg bg-red-500 rounded-3xl px-4 py-2 text-white hover:bg-red-700"
+                className="btn border-none text-sm btn- bg-red-500 rounded-3xl px-4 py-2 text-white hover:bg-red-700"
               >
-                <FaSignOutAlt size={16} className="mt-1" /> LogOut
+                <FaSignOutAlt size={16} /> LogOut
               </button>
             </div>
           </>
