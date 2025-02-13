@@ -2,9 +2,11 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import useCourses from "../../Hooks/useCourses";
 import LoadingSpinner from "../../Components/LoadingPage/LoadingSpinner";
+import useScrolltoTop from "../../Hooks/useScrolltoTop";
 
 const CourseDetails = () => {
   const { id } = useParams();
+  useScrolltoTop();
   const [courses, loading] = useCourses();
 
   if (loading) {
@@ -17,7 +19,7 @@ const CourseDetails = () => {
   if (!course) {
     return (
       <div className="text-center py-20 text-2xl font-semibold text-red-500">
-        কোর্স পাওয়া যায়নি! ❌
+       Here is No Course ❌
       </div>
     );
   }
@@ -35,34 +37,34 @@ const CourseDetails = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-700">
             <div>
               <p className="text-lg mb-3">
-                <span className="font-semibold">📚 ক্লাস:</span> {course.class}
+                <span className="font-semibold">📚 Class:</span> {course.class}
               </p>
               <p className="text-lg mb-3">
-                <span className="font-semibold">📖 বিষয়:</span>{" "}
+                <span className="font-semibold">📖 Subject:</span>{" "}
                 {course.subjects.join(", ")}
               </p>
               <p className="text-lg mb-3">
-                <span className="font-semibold">⏳ সময়কাল:</span>{" "}
+                <span className="font-semibold">⏳ Duration:</span>{" "}
                 {course.duration}
               </p>
               <p className="text-lg mb-3">
-                <span className="font-semibold">💰 ফি:</span> {course.fee}
+                <span className="font-semibold">💰 Fee:</span> {course.fee}
               </p>
             </div>
             <div>
               <p className="text-lg mb-3">
-                <span className="font-semibold">📍 অবস্থান:</span>{" "}
+                <span className="font-semibold">📍 Location:</span>{" "}
                 {course.location}
               </p>
               <p className="text-lg mb-3">
-                <span className="font-semibold">📆 দিন:</span>{" "}
+                <span className="font-semibold">📆 Day:</span>{" "}
                 {course.days.join(", ")}
               </p>
               <p className="text-lg mb-3">
-                <span className="font-semibold">⏰ সময়:</span> {course.time}
+                <span className="font-semibold">⏰ Time:</span> {course.time}
               </p>
               <p className="text-lg mb-3">
-                <span className="font-semibold">📞 যোগাযোগ:</span>{" "}
+                <span className="font-semibold">📞 Contact:</span>{" "}
                 {course.contact}
               </p>
             </div>
@@ -80,7 +82,7 @@ const CourseDetails = () => {
               onClick={() => window.history.back()}
               className="bg-amber-600 text-white py-3 px-8 rounded-lg shadow-md hover:bg-amber-700 transition duration-300 font-semibold hover:shadow-lg"
             >
-              🔙 ফিরে যান
+              🔙 Back 
             </button>
 
             {/* Buy Course Button */}
@@ -88,7 +90,7 @@ const CourseDetails = () => {
               onClick={() => alert("Course purchased!")}
               className="bg-green-600 text-white py-3 px-8 rounded-lg shadow-md hover:bg-green-700 transition duration-300 font-semibold hover:shadow-lg"
             >
-              💸 কোর্সটি কিনুন
+              💸 Buy Now
             </button>
           </div>
         </div>

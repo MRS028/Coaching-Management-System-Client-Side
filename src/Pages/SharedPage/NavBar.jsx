@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { FaBars, FaSignOutAlt, FaTimes } from "react-icons/fa";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
+import logo from "../../assets/CMSlogo.png";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -58,7 +59,7 @@ const NavBar = () => {
               : "text-gray-700 hover:text-amber-500"
           }
         >
-          হোম পেইজ
+          Home
         </NavLink>
       </li>
       <li className="pt-2">
@@ -70,7 +71,7 @@ const NavBar = () => {
               : "text-gray-700 hover:text-amber-500"
           }
         >
-          কোর্স সমূহ
+          All Courses
         </NavLink>
       </li>
       <li className="pt-2">
@@ -82,16 +83,33 @@ const NavBar = () => {
               : "text-gray-700 hover:text-amber-500"
           }
         >
-          যোগাযোগ
+          Contact
         </NavLink>
       </li>
+      {
+        user && user.email ? <><li className="pt-2">
+        <NavLink
+          to="/dashboard"
+          className={({ isActive }) =>
+            isActive
+              ? "text-amber-600 font-bold"
+              : "text-gray-700 hover:text-amber-500"
+          }
+        >
+          Dashboard
+        </NavLink>
+      </li></> : ''
+      }
       <li>
         {user && user?.email ? (
           <>
             <div className="flex items-center space-x-2">
               <div className="relative ">
                 <img
-                  src={user?.photoURL || "https://i.ibb.co.com/XLq7gMH/Sample-User-Icon.png"}
+                  src={
+                    user?.photoURL ||
+                    "https://i.ibb.co.com/XLq7gMH/Sample-User-Icon.png"
+                  }
                   alt="User Profile"
                   className="w-9 h-9 rounded-full border-gray-300"
                 />
@@ -131,7 +149,7 @@ const NavBar = () => {
               to="/"
               className="md:text-2xl text-xl  font-bold text-green-500"
             >
-              অধ্যয়ন কোচিং সেন্টার,সাভার
+              <img src={logo} alt="" className="md:w-40 h-20 inline-block" />
             </NavLink>
           </div>
 
@@ -164,7 +182,7 @@ const NavBar = () => {
                 }
                 onClick={() => setIsOpen(false)}
               >
-                হোম পেইজ
+                Home
               </NavLink>
             </li>
             <li>
@@ -177,7 +195,7 @@ const NavBar = () => {
                 }
                 onClick={() => setIsOpen(false)}
               >
-                কোর্স সমূহ
+                All Courses
               </NavLink>
             </li>
             <li>
@@ -190,7 +208,7 @@ const NavBar = () => {
                 }
                 onClick={() => setIsOpen(false)}
               >
-                যোগাযোগ
+                Contact
               </NavLink>
             </li>
             <li>

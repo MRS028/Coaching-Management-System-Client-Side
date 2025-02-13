@@ -6,6 +6,8 @@ import AuthLayOut from "../Components/Auth/AuthLayOut/AuthLayOut";
 import Login from "../Components/Auth/LoginPage/Login";
 import SignUp from "../Components/Auth/SignUp/SignUp";
 import CourseDetails from "../Pages/Courses/CourseDetails";
+import DashBoard from "../DashBoard/Dashboard/Dashboard";
+import PrivateRoute from "./PrivateRoute";
 
 const Router = createBrowserRouter([
   {
@@ -40,6 +42,11 @@ const Router = createBrowserRouter([
         }
     ]
   },
+  {
+    path: '/dashboard',
+    element: <PrivateRoute><DashBoard/></PrivateRoute>
+  }
+  ,
   {
     path: "/*",
     element: <div>Error</div>,

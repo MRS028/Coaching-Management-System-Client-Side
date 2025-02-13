@@ -16,7 +16,7 @@ const Courses = () => {
   return (
     <div className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="text-4xl font-semibold text-gray-800 mb-12">আমাদের কোর্সসমূহ</h2>
+        <h2 className="text-4xl font-semibold text-gray-800 mb-12">Our Courses</h2>
 
         {/* Grid Container */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
@@ -37,27 +37,28 @@ const Courses = () => {
               <div className="text-left space-y-2 mb-6 flex-grow">
                 <p className="text-gray-700 flex items-center">
                   <FaBook className="mr-2 text-amber-600" />
-                  <span className="font-semibold">ক্লাস:</span> {course?.class}
+                  <span className="font-semibold mr-1">Class:</span> {course?.class}
                 </p>
                 <p className="text-gray-700 flex items-center">
                   <FaBook className="mr-2 text-amber-600" />
-                  <span className="font-semibold">বিষয়:</span> {course.subjects.join(", ")}
+                  <span className="font-semibold mr-1">Subject:</span> {course.subjects.length > 0 ? `${course.subjects[0]}, ${course.subjects[1]}${course.subjects.length > 2 ? '...' : ''}` : ''}
+
                 </p>
                 <p className="text-gray-700 flex items-center">
                   <FaClock className="mr-2 text-amber-600" />
-                  <span className="font-semibold">সময়কাল:</span> {course.duration}
+                  <span className="font-semibold mr-1">Duration:</span> {course.duration}
                 </p>
                 <p className="text-gray-700 flex items-center">
                   <FaMoneyBillAlt className="mr-2 text-amber-600" />
-                  <span className="font-semibold">ফি:</span> {course.fee}
+                  <span className="font-semibold mr-1">Fee:</span> {course.fee}
                 </p>
                 <p className="text-gray-700 flex items-center">
                   <FaPhoneAlt className="mr-2 text-amber-600" />
-                  <span className="font-semibold">যোগাযোগ:</span> {course.contact}
+                  <span className="font-semibold mr-1">Contact:</span> {course.contact}
                 </p>
                 <p className="text-gray-700 flex items-center">
                   <FaMapMarkerAlt className="mr-2 text-amber-600" />
-                  <span className="font-semibold">অবস্থান:</span> {course.location}
+                  <span className="font-semibold mr-1">Location:</span> {course.location}
                 </p>
               </div>
 
@@ -67,7 +68,7 @@ const Courses = () => {
                   to={`/course/${course._id}`}
                   className="inline-block bg-amber-600 text-white py-3 px-8 rounded-lg shadow-md hover:bg-amber-700 transition duration-300 font-semibold hover:shadow-lg"
                 >
-                  বিস্তারিত দেখুন
+                  See more
                 </Link>
               </div>
             </div>

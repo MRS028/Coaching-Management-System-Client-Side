@@ -76,7 +76,8 @@ const SignUp = () => {
               school: data.school,
               version: data.language,
               created: new Date(),
-              phone: data.phone
+              phone: data.phone,
+              gender: data.gender,
             };
             console.log(userInfo);
 
@@ -246,6 +247,32 @@ const SignUp = () => {
             )}
           </div>
 
+          {/* Gender */}
+          <div className="mb-4 text-gray-800 relative">
+            <label htmlFor="gender" className="block text-gray-600 mb-2">
+              Gender
+            </label>
+            <div className="relative">
+              <select
+                id="gender"
+                className={`w-full pl-10 pr-4 py-2 border ${
+                  errors.gender ? "border-red-500" : "border-gray-300"
+                } rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-200`}
+                {...register("gender", { required: "Gender is required" })}
+              >
+                <option value="">Select your gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            {errors.gender && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.gender.message}
+              </p>
+            )}
+          </div>
+
           {/* School name */}
           <div className="mb-4 text-gray-800 relative">
             <label htmlFor="school" className="block text-gray-600 mb-2">
@@ -260,8 +287,10 @@ const SignUp = () => {
                 {...register("school", { required: "School name is required" })}
               >
                 <option value="">Select your school</option>
-                <option value="teacher" className="text-red-500 font-semibold">Teacher</option>
-                
+                <option value="teacher" className="text-red-500 font-semibold">
+                  Teacher
+                </option>
+
                 <option value="BPATC School & College">
                   BPATC School & College
                 </option>
@@ -296,8 +325,9 @@ const SignUp = () => {
                 {...register("class", { required: "Class is required" })}
               >
                 <option value="">Select your class</option>
-                <option value="teacher" className="text-red-500 font-semibold">Teacher</option>
-        
+                <option value="teacher" className="text-red-500 font-semibold">
+                  Teacher
+                </option>
 
                 {[...Array(10).keys()].map((i) => (
                   <>
@@ -334,7 +364,9 @@ const SignUp = () => {
                 })}
               >
                 <option value="">Select language version</option>
-                <option value="teacher" className="text-red-500 font-semibold">Teacher</option>
+                <option value="teacher" className="text-red-500 font-semibold">
+                  Teacher
+                </option>
                 <option value="english">English</option>
                 <option value="bangla">Bangla</option>
               </select>
