@@ -6,6 +6,7 @@ import useScrolltoTop from "../../../Hooks/useScrolltoTop";
 import useAuth from "../../../Hooks/useAuth";
 import Swal from "sweetalert2";
 import SocialLogin from "../SocialLogin/SocialLogin";
+import logo from '../../../assets/CMSlogo2.png'
 
 const Login = () => {
   const {
@@ -60,8 +61,11 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center ">
-      <div className=" p-8 rounded-lg shadow-lg w-full max-w-md">
+    <div className=" flex justify-center items-center ">
+      <div className=" p-8 rounded-lg shadow-lg w-full max-w-md ">
+       <div className="flex justify-center">
+       <img src={logo} alt=""  className="w-20 h-20 rounded-full border  justify-center"/>
+       </div>
         <h2 className="text-3xl font-bold text-center text-gray-700 mb-6">
           Login
         </h2>
@@ -141,10 +145,10 @@ const Login = () => {
           </div>
 
           {/* Forget Password Link */}
-          <div className="mb-6 text-right">
+          <div className="mb-3 text-right">
             <Link
               to="/forgot-password" // Replace with your forgot password route
-              className="text-sm text-blue-500 hover:text-blue-600 transition duration-200"
+              className="text-sm text-blue-600 hover:text-blue-700 transition duration-200"
             >
               Forgot Password?
             </Link>

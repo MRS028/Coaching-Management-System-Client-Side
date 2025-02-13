@@ -18,6 +18,7 @@ import useScrolltoTop from "../../../Hooks/useScrolltoTop";
 import useAuth from "../../../Hooks/useAuth";
 import { Helmet } from "react-helmet";
 import Swal from "sweetalert2";
+import logo from '../../../assets/CMSlogo2.png'
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
@@ -153,6 +154,9 @@ const SignUp = () => {
         <title>SignUP || OCMS</title>
       </Helmet>
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-3xl">
+        <div className="flex justify-center">
+               <img src={logo} alt=""  className="w-20 h-20 rounded-full border  justify-center"/>
+               </div>
         <h2 className="text-3xl font-bold text-center text-gray-700 mb-6">
           Register
         </h2>
@@ -469,7 +473,7 @@ const SignUp = () => {
               {"Already have an account?"}{" "}
               <Link
                 to="/auth/login" // Replace with your login route
-                className="text-blue-500 hover:text-blue-600 transition duration-200"
+                className="text-green-500 hover:text-blue-600 transition duration-200"
               >
                 Log In
               </Link>

@@ -8,6 +8,8 @@ import SignUp from "../Components/Auth/SignUp/SignUp";
 import CourseDetails from "../Pages/Courses/CourseDetails";
 import DashBoard from "../DashBoard/Dashboard/Dashboard";
 import PrivateRoute from "./PrivateRoute";
+import AdminHome from "../DashBoard/Admin/Home/AdminHome";
+import AddCourse from "../DashBoard/Admin/AddCourse/AddCourse";
 
 const Router = createBrowserRouter([
   {
@@ -44,7 +46,17 @@ const Router = createBrowserRouter([
   },
   {
     path: '/dashboard',
-    element: <PrivateRoute><DashBoard/></PrivateRoute>
+    element: <PrivateRoute><DashBoard/></PrivateRoute>,
+    children: [
+      {
+        path: "adminHome",
+        element: <AdminHome/>
+      },
+      {
+        path: "AddCourse",
+        element: <AddCourse/>
+      }
+    ]
   }
   ,
   {

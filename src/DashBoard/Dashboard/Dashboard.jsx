@@ -12,12 +12,14 @@ import {
   FaEnvelope,
   FaBars,
   FaTimes,
+  FaBookOpen,
 } from "react-icons/fa";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 // import useAdmin from "../../Hooks/useAdmin";
 import { Helmet } from "react-helmet";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
+import { FaBookAtlas } from "react-icons/fa6";
 
 const DashBoard = () => {
   //   const [isAdmin] = useAdmin();
@@ -64,13 +66,13 @@ const DashBoard = () => {
       <div
         className={`${
           menuOpen ? "block" : "hidden"
-        } w-64 h-screen bg-gradient-to-br from-teal-500 to-green-400 text-white fixed top-0 left-0 shadow-lg md:block z-50`}
+        } w-64 h-screen bg-gradient-to-b from-green-500  to-blue-200 text-white fixed top-0 left-0 shadow-lg md:block z-50`}
       >
         <div className="p-4 ">
-          <h1 className="text-2xl font-bold text-center mb-2">
-            Coaching Center
+          <h1 className="text-xl font-bold text-center mb-2">
+        অধ্যয়ন কোচিং সেন্টার
           </h1>
-          <p className="text-sm text-center font-light">
+          <p className="text-sm text-center font-semibold">
             Empowering education for a brighter future.
           </p>
         </div>
@@ -85,8 +87,8 @@ const DashBoard = () => {
                   className={({ isActive }) =>
                     `flex items-center gap-1 p-3 rounded-lg transition ${
                       isActive
-                        ? "bg-blue-800 text-yellow-300"
-                        : "hover:bg-blue-800 hover:text-yellow-200"
+                        ? "bg-amber-500 text-white"
+                        : "hover:bg-amber-500 hover:text-yellow-200"
                     }`
                   }
                 >
@@ -96,17 +98,47 @@ const DashBoard = () => {
               </li>
               <li>
                 <NavLink
-                  to="/dashboard/manageCourses"
+                  to="/dashboard/AddCourse"
                   className={({ isActive }) =>
                     `flex items-center gap-1 p-3 rounded-lg transition ${
                       isActive
-                        ? "bg-blue-800 text-yellow-300"
+                        ? "bg-amber-500 text-white"
                         : "hover:bg-blue-800 hover:text-yellow-200"
                     }`
                   }
                 >
                   <FaBook className="text-base" />
+                  Add Courses
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/manageCourses"
+                  className={({ isActive }) =>
+                    `flex items-center gap-1 p-3 rounded-lg transition ${
+                      isActive
+                        ? "bg-amber-500 text-white"
+                        : "hover:bg-blue-800 hover:text-yellow-200"
+                    }`
+                  }
+                >
+                  <FaBookOpen className="text-base" />
                   Manage Courses
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/manageCourses"
+                  className={({ isActive }) =>
+                    `flex items-center gap-1 p-3 rounded-lg transition ${
+                      isActive
+                        ? "bg-amber-500 text-white"
+                        : "hover:bg-blue-800 hover:text-yellow-200"
+                    }`
+                  }
+                >
+                  <FaBook className="text-base" />
+                  Admission Page
                 </NavLink>
               </li>
               <li>
@@ -115,7 +147,7 @@ const DashBoard = () => {
                   className={({ isActive }) =>
                     `flex items-center gap-1 p-3 rounded-lg transition ${
                       isActive
-                        ? "bg-blue-800 text-yellow-300"
+                        ? "bg-amber-500 text-white"
                         : "hover:bg-blue-800 hover:text-yellow-200"
                     }`
                   }
@@ -130,7 +162,22 @@ const DashBoard = () => {
                   className={({ isActive }) =>
                     `flex items-center gap-1 p-3 rounded-lg transition ${
                       isActive
-                        ? "bg-blue-800 text-yellow-300"
+                        ? "bg-amber-500 text-white"
+                        : "hover:bg-blue-800 hover:text-yellow-200"
+                    }`
+                  }
+                >
+                  <FaUsers className="text-base" />
+                  Manage Teacher
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/analytics"
+                  className={({ isActive }) =>
+                    `flex items-center gap-1 p-3 rounded-lg transition ${
+                      isActive
+                        ? "bg-amber-500 text-white"
                         : "hover:bg-blue-800 hover:text-yellow-200"
                     }`
                   }
@@ -145,7 +192,7 @@ const DashBoard = () => {
                   className={({ isActive }) =>
                     `flex items-center gap-1 p-3 rounded-lg transition ${
                       isActive
-                        ? "bg-blue-800 text-yellow-300"
+                        ? "bg-amber-500 text-white"
                         : "hover:bg-blue-800 hover:text-yellow-200"
                     }`
                   }
@@ -163,7 +210,7 @@ const DashBoard = () => {
                   className={({ isActive }) =>
                     `flex items-center gap-1 p-3 rounded-lg transition ${
                       isActive
-                        ? "bg-blue-800 text-yellow-300"
+                        ? "bg-amber-500 text-white"
                         : "hover:bg-blue-800 hover:text-yellow-200"
                     }`
                   }
@@ -178,7 +225,7 @@ const DashBoard = () => {
                   className={({ isActive }) =>
                     `flex items-center gap-1 p-3 rounded-lg transition ${
                       isActive
-                        ? "bg-blue-800 text-yellow-300"
+                        ? "bg-amber-500 text-white"
                         : "hover:bg-blue-800 hover:text-yellow-200"
                     }`
                   }
@@ -193,7 +240,7 @@ const DashBoard = () => {
                   className={({ isActive }) =>
                     `flex items-center gap-1 p-3 rounded-lg transition ${
                       isActive
-                        ? "bg-blue-800 text-yellow-300"
+                        ? "bg-amber-500 text-white"
                         : "hover:bg-blue-800 hover:text-yellow-200"
                     }`
                   }
@@ -208,7 +255,7 @@ const DashBoard = () => {
                   className={({ isActive }) =>
                     `flex items-center gap-1 p-3 rounded-lg transition ${
                       isActive
-                        ? "bg-blue-800 text-yellow-300"
+                        ? "bg-amber-500 text-white"
                         : "hover:bg-blue-800 hover:text-yellow-200"
                     }`
                   }
@@ -228,7 +275,7 @@ const DashBoard = () => {
               className={({ isActive }) =>
                 `flex items-center gap-1 p-3 rounded-lg transition ${
                   isActive
-                    ? "bg-blue-800 text-yellow-300"
+                    ? "bg-amber-500 text-white"
                     : "hover:bg-blue-800 hover:text-yellow-200"
                 }`
               }
@@ -243,7 +290,7 @@ const DashBoard = () => {
               className={({ isActive }) =>
                 `flex items-center gap-1 p-3 rounded-lg transition ${
                   isActive
-                    ? "bg-blue-800 text-yellow-300"
+                    ? "bg-amber-500 text-white"
                     : "hover:bg-blue-800 hover:text-yellow-200"
                 }`
               }
@@ -265,7 +312,7 @@ const DashBoard = () => {
 
       {/* Mobile Menu Toggle */}
       <button
-        className="text-white bg-green-600 p-3 fixed top-4 right-4 rounded-full shadow-md md:hidden z-50"
+        className="text-white bg-green-500 p-3 fixed top-4 right-4 rounded-full shadow-md md:hidden z-50"
         onClick={() => setMenuOpen(!menuOpen)}
       >
         {menuOpen ? (

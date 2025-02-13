@@ -49,7 +49,7 @@ const NavBar = () => {
   };
 
   const links = (
-    <ul className="flex space-x-6">
+    <ul className="flex space-x-6 text-xl">
       <li className="pt-2">
         <NavLink
           to="/"
@@ -89,7 +89,7 @@ const NavBar = () => {
       {
         user && user.email ? <><li className="pt-2">
         <NavLink
-          to="/dashboard"
+          to="/dashboard/AdminHome"
           className={({ isActive }) =>
             isActive
               ? "text-amber-600 font-bold"
@@ -119,7 +119,7 @@ const NavBar = () => {
               </div>
               <button
                 onClick={handleLogOut}
-                className="btn border-none text-sm btn- bg-red-500 rounded-3xl px-4 py-2 text-white hover:bg-red-700"
+                className="btn border-none text-xl btn- bg-red-500 rounded-3xl px-4 py-2 text-white hover:bg-red-700"
               >
                 <FaSignOutAlt size={16} /> LogOut
               </button>
@@ -129,7 +129,7 @@ const NavBar = () => {
           <>
             <NavLink
               to="/auth/login"
-              className="btn border-none text-3xl btn-lg bg-amber-500 rounded-full px-4 py-2 text-white hover:bg-amber-600"
+              className="btn border-none  text-xl btn-md bg-amber-500 rounded-full px-4 py-2 text-white hover:bg-amber-600"
             >
               Join Now
             </NavLink>
@@ -149,7 +149,7 @@ const NavBar = () => {
               to="/"
               className="md:text-2xl text-xl  font-bold text-green-500"
             >
-              <img src={logo} alt="" className="md:w-40 h-20 inline-block" />
+              <img src={logo} alt="" className="md:w-40 h-18 pt-2 inline-block" />
             </NavLink>
           </div>
 

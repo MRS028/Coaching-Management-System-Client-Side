@@ -25,16 +25,26 @@ const CourseDetails = () => {
   }
 
   return (
-    <div className="py-16 bg-gray-50">
+    <div className="py-12 bg-green-200">
       <div className="max-w-5xl mx-auto px-6 sm:px-10">
-        <div className="bg-white shadow-xl rounded-2xl p-8">
-          {/* Course Title */}
-          <h2 className="text-4xl font-bold text-gray-800 mb-6 text-center">
+      <h2 className="text-4xl mb-5 p-2 font-bold text-amber-600 text-center">
             {course.title}
           </h2>
-
+        {/* <h2 className="text-4xl font-semibold text-center lg:text-6xl">Course Details</h2> */}
+        
+        <div className="bg-white shadow-xl rounded-2xl p-8">
+        <div className="flex justify-center pb-4">
+          <p className=""><span className="font-semibold">প্রিয় শিক্ষার্থীরা, <br /></span>
+          তোমরা এখন জীবনের একটি নতুন অধ্যায়ে পদার্পণ করেছ। এই সময়ে নিয়মিত ভালো অভ্যাস তৈরি করা এবং সঠিকভাবে পড়ালেখার চর্চা করাই ভবিষ্যতের ভিত্তি গড়তে সহায়তা করে। শিক্ষা জীবনের শুরুতেই যদি সৃজনশীল ও ভাবনাপূর্ণভাবে পাঠ্যবইয়ের সঙ্গে মিশে যাওয়া যায়, তাহলে তা শুধু ভালো ফলাফলের জন্য নয় বরং তোমাদের স্বপ্ন ও লক্ষ্যপূরণের পথকে আরও সহজ করে তোলে। এই সময় বুঝে এবং গভীরভাবে বই পড়ার অভ্যাস গড়ে তোলাটাই গুরুত্বপূর্ণ। তোমাদের পাঠ্যবইগুলোর মধ্যে গণিত ও বিজ্ঞান বিষয় দুটি তুলনামূলক বেশ জটিল। বার্ষিক পরীক্ষায় সামগ্রিকভাবে ভালো ফলাফল অর্জনে এই বিষয় দুটিতে দৃঢ় প্রস্তুতি নেওয়া খুবই জরুরি।</p>
+          {/* <img src={course.image || "https://udvash.com/media/Images/UDVASH/program/2025/SSC25FMTofon.png"} alt=""  className="rounded-xl"/> */}
+        </div>
+          {/* Course Title */}
+         
+          <h2 className="text-3xl text-left p-2">কোর্সের বিস্তারিত...</h2>
           {/* Course Details */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-700">
+         <div className=" border-2 p-5">
+         <div className="grid grid-cols-1 my-2 md:grid-cols-2 gap-8  text-gray-700">
+            
             <div>
               <p className="text-lg mb-3">
                 <span className="font-semibold">📚 Class:</span> {course.class}
@@ -68,12 +78,15 @@ const CourseDetails = () => {
                 {course.contact}
               </p>
             </div>
+           
           </div>
-
-          {/* Description */}
           <div className="mt-6 text-lg text-gray-600 leading-relaxed">
             <p>{course.description}</p>
           </div>
+         </div>
+
+         
+        
 
           {/* Go Back Button */}
           <div className="text-center mt-8 flex justify-center gap-4">
