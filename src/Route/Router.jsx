@@ -10,59 +10,93 @@ import DashBoard from "../DashBoard/Dashboard/Dashboard";
 import PrivateRoute from "./PrivateRoute";
 import AdminHome from "../DashBoard/Admin/Home/AdminHome";
 import AddCourse from "../DashBoard/Admin/AddCourse/AddCourse";
+import ManageCourses from "../DashBoard/Admin/ManageCourse/ManageCourses";
+import ManageStudents from "../DashBoard/Admin/ManageUsers/ManageStudents";
+import ManageTeachers from "../DashBoard/Admin/ManageTeachers/ManageTeachers";
+import TeacherHome from "../DashBoard/Teacher/TeacherHome.jsx/Teacherhome";
+import StudentHome from "../DashBoard/StudentDashboard/StudentHome";
 
 const Router = createBrowserRouter([
   {
     path: "/",
-    element: <HomeLayout/>,
+    element: <HomeLayout />,
     children: [
-        {
-            path : '/',
-            element: <Home/>
-        },
-        {
-            path : '/courses',
-            element: <Courses/>
-        },
-        {
-            path : '/course/:id',
-            element: <CourseDetails/>
-        },
-        {
-            path:"",
-            element: <AuthLayOut/>,
-            children: [
-                {
-                    path: "/auth/login",
-                    element: <Login/>
-                },
-                {
-                    path: "/auth/signup",
-                    element: <SignUp/>
-                }
-            ]
-        }
-    ]
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/courses",
+        element: <Courses />,
+      },
+      {
+        path: "/course/:id",
+        element: <CourseDetails />,
+      },
+      {
+        path: "",
+        element: <AuthLayOut />,
+        children: [
+          {
+            path: "/auth/login",
+            element: <Login />,
+          },
+          // {
+          //   path: "/auth/joinNow",
+          //   element: <JoinNowToggle />,
+          // },
+          {
+            path: "/auth/signup",
+            element: <SignUp />,
+          },
+        ],
+      },
+    ],
   },
   {
-    path: '/dashboard',
-    element: <PrivateRoute><DashBoard/></PrivateRoute>,
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <DashBoard />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "adminHome",
-        element: <AdminHome/>
+        element: <AdminHome />,
       },
       {
         path: "AddCourse",
-        element: <AddCourse/>
-      }
-    ]
-  }
-  ,
+        element: <AddCourse />,
+      },
+      {
+        path: "manageCourses",
+        element: <ManageCourses/>,
+      },
+      {
+        path: "manageStudents",
+        element: <ManageStudents/>,
+      },
+      {
+        path: "manageTeachers",
+        element: <ManageTeachers/>,
+      },
+      //student dashboard
+      {
+        path: "studentHome",
+        element: <StudentHome/>,
+      },
+
+      //Teachers Dashboard
+      {
+        path: "teacherHome",
+        element: <TeacherHome/>,
+      },
+    ],
+  },
   {
     path: "/*",
     element: <div>Error</div>,
   },
 ]);
 export default Router;
-

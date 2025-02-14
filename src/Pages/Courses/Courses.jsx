@@ -73,7 +73,7 @@ const Courses = () => {
               <button className="text-white btn bg-gradient-to-r from-green-500 to-amber-500 font-semibold py-2 px-4 bg-green-500 rounded-2xl">Offline</button>
                 <Link
                   to={`/course/${course._id}`}
-                  className="btn bg-gradient-to-r from-green-500 to-amber-500  text-white py-2 px-4 font-semibold rounded-2xl shadow-md hove"
+                  className="btn bg-gradient-to-r from-green-500 to-amber-500  text-white py-2 px-4 font-semibold rounded-2xl shadow-md"
                 >
                   See more
                 </Link>

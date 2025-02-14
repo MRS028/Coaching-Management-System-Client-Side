@@ -12,14 +12,16 @@ import {
   FaBook,
   FaSchool,
   FaLanguage,
+  FaVenusMars,
 } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom"; // Assuming you're using React Router for navigation
 import useScrolltoTop from "../../../Hooks/useScrolltoTop";
 import useAuth from "../../../Hooks/useAuth";
 import { Helmet } from "react-helmet";
 import Swal from "sweetalert2";
-import logo from '../../../assets/CMSlogo2.png'
+import logo from "../../../assets/CMSlogo2.png";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
+import SocialLogin from "../SocialLogin/SocialLogin";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -74,41 +76,58 @@ const SignUp = () => {
               email: data.email,
               photoURL: photoURL,
               class: data.class,
+              role: data.role,
               school: data.school,
               version: data.language,
               created: new Date(),
               phone: data.phone,
               gender: data.gender,
+              ...(data.role === "teacher" && {
+                classes: [
+                  { id: 1, name: "seven", students: 1 },
+                  { id: 2, name: "ten", students: 1 },
+                  { id: 3, name: "nine", students: 1 },
+                  { id: 4, name: "eight", students: 1 },
+                  { id: 5, name: "six", students: 1 },
+                ],
+                students: 1,
+                rating: 1,
+              }),
             };
-            console.log(userInfo);
+            
+            // console.log(userInfo);
+            
+            //console.log(userInfo);
 
             axiosPublic
-              .post("/users", userInfo)
-              .then((res) => {
-                Swal.close();
-                if (res.data.insertedId) {
-                  reset();
-                  Swal.fire({
-                    title: "Sign Up Successful",
-                    text: "Assalamuwalaikum, Welcome to our MediCamp",
-                    icon: "success",
-                    timer: 1500,
-                  });
-
-                  navigate("/");
-                }
-              })
-              .catch((err) => {
-                // console.log(err);
-                Swal.close();
+            .post("/users", userInfo)
+            .then((res) => {
+              Swal.close();
+              if (res.data.insertedId) {
+                reset();
                 Swal.fire({
-                  title: "An Error Occurred",
-                  text:
-                    err.message ||
-                    "Something went wrong. Please try again later.",
-                  icon: "error",
+                  title: "Sign Up Successful",
+                  text: "Assalamuwalaikum, Welcome to our MediCamp",
+                  icon: "success",
+                  timer: 1500,
                 });
+
+                navigate("/");
+              }
+            })
+            .catch((err) => {
+              // console.log(err);
+              Swal.close();
+              Swal.fire({
+                title: "An Error Occurred",
+                text:
+                  err.message ||
+                  "Something went wrong. Please try again later.",
+                icon: "error",
               });
+            });
+           
+            
           })
           .catch((err) => {
             // console.log(err);
@@ -155,8 +174,12 @@ const SignUp = () => {
       </Helmet>
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-3xl">
         <div className="flex justify-center">
-               <img src={logo} alt=""  className="w-20 h-20 rounded-full border  justify-center"/>
-               </div>
+          <img
+            src={logo}
+            alt=""
+            className="w-20 h-20 rounded-full border  justify-center"
+          />
+        </div>
         <h2 className="text-3xl font-bold text-center text-gray-700 mb-6">
           Register
         </h2>
@@ -269,6 +292,9 @@ const SignUp = () => {
                 <option value="female">Female</option>
                 <option value="other">Other</option>
               </select>
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <FaVenusMars className="text-gray-500" />
+              </div>
             </div>
             {errors.gender && (
               <p className="text-red-500 text-sm mt-1">
@@ -291,8 +317,11 @@ const SignUp = () => {
                 {...register("school", { required: "School name is required" })}
               >
                 <option value="">Select your school</option>
-                <option value="teacher" className="text-red-500 font-semibold">
+                {/* <option value="teacher" className="text-red-500 font-semibold">
                   Teacher
+                </option> */}
+                <option value="Others" className="text-red-500 font-semibold">
+                  Others
                 </option>
 
                 <option value="BPATC School & College">
@@ -329,8 +358,11 @@ const SignUp = () => {
                 {...register("class", { required: "Class is required" })}
               >
                 <option value="">Select your class</option>
-                <option value="teacher" className="text-red-500 font-semibold">
+                {/* <option value="teacher" className="text-red-500 font-semibold">
                   Teacher
+                </option> */}
+                <option value="Others" className="text-red-500 font-semibold">
+                  Others
                 </option>
 
                 {[...Array(10).keys()].map((i) => (
@@ -368,11 +400,11 @@ const SignUp = () => {
                 })}
               >
                 <option value="">Select language version</option>
-                <option value="teacher" className="text-red-500 font-semibold">
+                {/* <option value="teacher" className="text-red-500 font-semibold">
                   Teacher
-                </option>
-                <option value="english">English</option>
-                <option value="bangla">Bangla</option>
+                </option> */}
+                <option value="English">English</option>
+                <option value="Bangla">Bangla</option>
               </select>
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <FaLanguage className="text-gray-500" />
@@ -458,6 +490,33 @@ const SignUp = () => {
               </p>
             )}
           </div>
+          {/* Role Selection */}
+          <div className="mb-4 text-gray-800">
+            <label className="block text-gray-600 mb-2">Role</label>
+            <div className="flex items-center space-x-6">
+              <label className="flex items-center space-x-2">
+                <input
+                  type="radio"
+                  value="student"
+                  {...register("role", { required: "Please select a role" })}
+                  className="form-radio text-amber-500"
+                />
+                <span>Student</span>
+              </label>
+              <label className="flex items-center space-x-2">
+                <input
+                  type="radio"
+                  value="teacher"
+                  {...register("role", { required: "Please select a role" })}
+                  className="form-radio text-amber-500"
+                />
+                <span>Teacher</span>
+              </label>
+            </div>
+            {errors.role && (
+              <p className="text-red-500 text-sm mt-1">{errors.role.message}</p>
+            )}
+          </div>
 
           {/* Submit Button */}
           <button
@@ -480,6 +539,8 @@ const SignUp = () => {
             </p>
           </div>
         </form>
+
+        <SocialLogin />
       </div>
     </div>
   );

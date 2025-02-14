@@ -1,32 +1,40 @@
 import React, { useState } from "react";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import {
   FaUserCircle,
   FaBook,
-  FaClipboardList,
   FaChartBar,
   FaWallet,
   FaHome,
   FaUsers,
   FaSignOutAlt,
-  FaUsersCog,
   FaEnvelope,
   FaBars,
   FaTimes,
   FaBookOpen,
+  FaUsersCog,
+  FaMoneyBill,
+  FaList,
+  FaAd,
 } from "react-icons/fa";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
-// import useAdmin from "../../Hooks/useAdmin";
 import { Helmet } from "react-helmet";
-import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
-import { FaBookAtlas } from "react-icons/fa6";
+import useAuth from "../../Hooks/useAuth";
+import useRole from "../../Hooks/useRole"; 
+import useSingleUser from "../../Hooks/useRole";
+
 
 const DashBoard = () => {
-  //   const [isAdmin] = useAdmin();
-  const isAdmin = true;
-  const [menuOpen, setMenuOpen] = useState(false);
   const { logOut, user } = useAuth();
+  const { singleUser, roleLoading } = useSingleUser() 
+  // const {teachers,refetch} = useTeachers();
+  // const {teachersrole} = useTeachersRole();
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  if (roleLoading) {
+    return <p className="text-center text-xl">Loading Dashboard...</p>;
+  }
 
   const handleLogOut = () => {
     Swal.fire({
@@ -40,15 +48,11 @@ const DashBoard = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         logOut()
-          .then(() => {})
+          .then(() => {
+            navigate("/");
+            Swal.fire("Successfully Logged Out", "Stay Blessed!", "success");
+          })
           .catch((err) => console.log(err));
-        navigate("/");
-        Swal.fire({
-          title: "Successfully Logged Out",
-          text: "Stay Blessed, Allah will help You.",
-          icon: "success",
-          timer: 1500,
-        });
       }
     });
   };
@@ -57,212 +61,79 @@ const DashBoard = () => {
     <div className="flex flex-col md:flex-row">
       <Helmet>
         <title>Dashboard || Coaching Center</title>
-        <meta
-          name="description"
-          content="This is the home page of the coaching center dashboard."
-        />
       </Helmet>
+
       {/* Sidebar */}
       <div
-        className={`${
-          menuOpen ? "block" : "hidden"
-        } w-64 h-screen bg-gradient-to-b from-green-500  to-blue-200 text-white fixed top-0 left-0 shadow-lg md:block z-50`}
+        className={`${menuOpen ? "block" : "hidden"} w-64 h-screen bg-gradient-to-b from-green-500 to-blue-200 text-white fixed top-0 left-0 shadow-lg md:block z-50`}
       >
-        <div className="p-4 ">
-          <h1 className="text-xl font-bold text-center mb-2">
-        অধ্যয়ন কোচিং সেন্টার
-          </h1>
-          <p className="text-sm text-center font-semibold">
-            Empowering education for a brighter future.
-          </p>
+        <div className="p-4 text-center">
+          <h1 className="text-xl font-bold">অধ্যয়ন কোচিং সেন্টার</h1>
+          <p className="text-sm font-semibold">Empowering education for a brighter future.</p>
         </div>
         <div className="mx-4 border-b-2 border-b-black"></div>
 
-        <ul className="menu p-4 font-semibold text-sm">
-          {isAdmin ? (
+        <ul className="menu p-4 font-semibold text-[1rem]">
+          {/* Admin Routes */}
+          {singleUser?.role === "admin" && (
+            <>
+              <ul className="">
+              <li>
+                <NavLink to="/dashboard/adminHome" className={({ isActive }) => (isActive ? "bg-amber-500 text-white" : "hover:bg-blue-800 hover:text-yellow-200")}> <FaHome /> Admin Home </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/addCourse" className={({ isActive }) => (isActive ? "bg-amber-500 text-white" : "hover:bg-blue-800 hover:text-yellow-200")}> <FaBook /> Add Courses </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/manageCourses" className={({ isActive }) => (isActive ? "bg-amber-500 text-white" : "hover:bg-blue-800 hover:text-yellow-200")}> <FaBookOpen /> Manage Courses </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/manageStudents" className={({ isActive }) => (isActive ? "bg-amber-500 text-white" : "hover:bg-blue-800 hover:text-yellow-200")}> <FaUsers /> Manage Students </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/manageTeachers" className={({ isActive }) => (isActive ? "bg-amber-500 text-white" : "hover:bg-blue-800 hover:text-yellow-200")}> <FaUsers /> Manage Teachers </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/admission" className={({ isActive }) => (isActive ? "bg-amber-500 text-white" : "hover:bg-blue-800 hover:text-yellow-200")}> <FaAd /> New Admission </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/paymentStatus" className={({ isActive }) => (isActive ? "bg-amber-500 text-white" : "hover:bg-blue-800 hover:text-yellow-200")}> <FaMoneyBill/> payment Status </NavLink>
+              </li>
+              </ul>
+            </>
+          )}
+
+          {/* Student Routes */}
+          {singleUser?.role === "student" && (
             <>
               <li>
-                <NavLink
-                  to="/dashboard/adminHome"
-                  className={({ isActive }) =>
-                    `flex items-center gap-1 p-3 rounded-lg transition ${
-                      isActive
-                        ? "bg-amber-500 text-white"
-                        : "hover:bg-amber-500 hover:text-yellow-200"
-                    }`
-                  }
-                >
-                  <FaHome className="text-base" />
-                  Admin Home
-                </NavLink>
+                <NavLink to="/dashboard/studentHome" className={({ isActive }) => (isActive ? "bg-amber-500 text-white" : "hover:bg-blue-800 hover:text-yellow-200")}> <FaHome /> Student Home </NavLink>
               </li>
               <li>
-                <NavLink
-                  to="/dashboard/AddCourse"
-                  className={({ isActive }) =>
-                    `flex items-center gap-1 p-3 rounded-lg transition ${
-                      isActive
-                        ? "bg-amber-500 text-white"
-                        : "hover:bg-blue-800 hover:text-yellow-200"
-                    }`
-                  }
-                >
-                  <FaBook className="text-base" />
-                  Add Courses
-                </NavLink>
+                <NavLink to="/dashboard/myCourses" className={({ isActive }) => (isActive ? "bg-amber-500 text-white" : "hover:bg-blue-800 hover:text-yellow-200")}> <FaBook /> My Courses </NavLink>
               </li>
               <li>
-                <NavLink
-                  to="/dashboard/manageCourses"
-                  className={({ isActive }) =>
-                    `flex items-center gap-1 p-3 rounded-lg transition ${
-                      isActive
-                        ? "bg-amber-500 text-white"
-                        : "hover:bg-blue-800 hover:text-yellow-200"
-                    }`
-                  }
-                >
-                  <FaBookOpen className="text-base" />
-                  Manage Courses
-                </NavLink>
+                <NavLink to="/dashboard/myRoutine" className={({ isActive }) => (isActive ? "bg-amber-500 text-white" : "hover:bg-blue-800 hover:text-yellow-200")}> <FaList /> My Routine </NavLink>
               </li>
               <li>
-                <NavLink
-                  to="/dashboard/manageCourses"
-                  className={({ isActive }) =>
-                    `flex items-center gap-1 p-3 rounded-lg transition ${
-                      isActive
-                        ? "bg-amber-500 text-white"
-                        : "hover:bg-blue-800 hover:text-yellow-200"
-                    }`
-                  }
-                >
-                  <FaBook className="text-base" />
-                  Admission Page
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/dashboard/manageStudents"
-                  className={({ isActive }) =>
-                    `flex items-center gap-1 p-3 rounded-lg transition ${
-                      isActive
-                        ? "bg-amber-500 text-white"
-                        : "hover:bg-blue-800 hover:text-yellow-200"
-                    }`
-                  }
-                >
-                  <FaUsers className="text-base" />
-                  Manage Students
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/dashboard/analytics"
-                  className={({ isActive }) =>
-                    `flex items-center gap-1 p-3 rounded-lg transition ${
-                      isActive
-                        ? "bg-amber-500 text-white"
-                        : "hover:bg-blue-800 hover:text-yellow-200"
-                    }`
-                  }
-                >
-                  <FaUsers className="text-base" />
-                  Manage Teacher
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/dashboard/analytics"
-                  className={({ isActive }) =>
-                    `flex items-center gap-1 p-3 rounded-lg transition ${
-                      isActive
-                        ? "bg-amber-500 text-white"
-                        : "hover:bg-blue-800 hover:text-yellow-200"
-                    }`
-                  }
-                >
-                  <FaChartBar className="text-base" />
-                  Analytics
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/dashboard/adminProfile"
-                  className={({ isActive }) =>
-                    `flex items-center gap-1 p-3 rounded-lg transition ${
-                      isActive
-                        ? "bg-amber-500 text-white"
-                        : "hover:bg-blue-800 hover:text-yellow-200"
-                    }`
-                  }
-                >
-                  <FaUserCircle className="text-base" />
-                  Admin Profile
-                </NavLink>
+                <NavLink to="/dashboard/paymentHistory" className={({ isActive }) => (isActive ? "bg-amber-500 text-white" : "hover:bg-blue-800 hover:text-yellow-200")}> <FaMoneyBill /> Payment History </NavLink>
               </li>
             </>
-          ) : (
+          )}
+          {/* Teacher Routes */}
+          {singleUser?.role === "teacher" && (
             <>
               <li>
-                <NavLink
-                  to="/dashboard/studentHome"
-                  className={({ isActive }) =>
-                    `flex items-center gap-1 p-3 rounded-lg transition ${
-                      isActive
-                        ? "bg-amber-500 text-white"
-                        : "hover:bg-blue-800 hover:text-yellow-200"
-                    }`
-                  }
-                >
-                  <FaHome className="text-base" />
-                  Student Home
-                </NavLink>
+                <NavLink to="/dashboard/teacherHome" className={({ isActive }) => (isActive ? "bg-amber-500 text-white" : "hover:bg-blue-800 hover:text-yellow-200")}> <FaHome /> Teacher Home </NavLink>
               </li>
               <li>
-                <NavLink
-                  to="/dashboard/myCourses"
-                  className={({ isActive }) =>
-                    `flex items-center gap-1 p-3 rounded-lg transition ${
-                      isActive
-                        ? "bg-amber-500 text-white"
-                        : "hover:bg-blue-800 hover:text-yellow-200"
-                    }`
-                  }
-                >
-                  <FaBook className="text-base" />
-                  My Courses
-                </NavLink>
+                <NavLink to="/dashboard/myClasses" className={({ isActive }) => (isActive ? "bg-amber-500 text-white" : "hover:bg-blue-800 hover:text-yellow-200")}> <FaBookOpen /> My Classes </NavLink>
               </li>
               <li>
-                <NavLink
-                  to="/dashboard/paymentHistory"
-                  className={({ isActive }) =>
-                    `flex items-center gap-1 p-3 rounded-lg transition ${
-                      isActive
-                        ? "bg-amber-500 text-white"
-                        : "hover:bg-blue-800 hover:text-yellow-200"
-                    }`
-                  }
-                >
-                  <FaWallet className="text-base" />
-                  Payment History
-                </NavLink>
+                <NavLink to="/dashboard/studentProgress" className={({ isActive }) => (isActive ? "bg-amber-500 text-white" : "hover:bg-blue-800 hover:text-yellow-200")}> <FaChartBar /> Student Progress </NavLink>
               </li>
               <li>
-                <NavLink
-                  to="/dashboard/studentProfile"
-                  className={({ isActive }) =>
-                    `flex items-center gap-1 p-3 rounded-lg transition ${
-                      isActive
-                        ? "bg-amber-500 text-white"
-                        : "hover:bg-blue-800 hover:text-yellow-200"
-                    }`
-                  }
-                >
-                  <FaUserCircle className="text-base" />
-                  Student Profile
-                </NavLink>
+                <NavLink to="/dashboard/teacherProfile" className={({ isActive }) => (isActive ? "bg-amber-500 text-white" : "hover:bg-blue-800 hover:text-yellow-200")}> <FaUserCircle /> Teacher Profile </NavLink>
               </li>
             </>
           )}
@@ -270,40 +141,13 @@ const DashBoard = () => {
           {/* Shared Links */}
           <div className="my-2 border-b-2 border-b-black"></div>
           <li>
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                `flex items-center gap-1 p-3 rounded-lg transition ${
-                  isActive
-                    ? "bg-amber-500 text-white"
-                    : "hover:bg-blue-800 hover:text-yellow-200"
-                }`
-              }
-            >
-              <FaHome className="text-base" />
-              Home
-            </NavLink>
+            <NavLink to="/" className={({ isActive }) => (isActive ? "bg-amber-500 text-white" : "hover:bg-blue-800 hover:text-yellow-200")}> <FaHome /> Home </NavLink>
           </li>
           <li>
-            <NavLink
-              to="/contact"
-              className={({ isActive }) =>
-                `flex items-center gap-1 p-3 rounded-lg transition ${
-                  isActive
-                    ? "bg-amber-500 text-white"
-                    : "hover:bg-blue-800 hover:text-yellow-200"
-                }`
-              }
-            >
-              <FaEnvelope className="text-base" />
-              Contact Us
-            </NavLink>
+            <NavLink to="/contact" className={({ isActive }) => (isActive ? "bg-amber-500 text-white" : "hover:bg-blue-800 hover:text-yellow-200")}> <FaEnvelope /> Contact Us </NavLink>
           </li>
           <li>
-            <button
-              onClick={handleLogOut}
-              className="bg-red-600 text-white px-4 py-2 rounded-full font-semibold hover:bg-red-700 transition"
-            >
+            <button onClick={handleLogOut} className="bg-red-600 text-white px-4 py-2 rounded-full font-semibold hover:bg-red-700 transition">
               <FaSignOutAlt className="mr-1 inline-block" /> LogOut
             </button>
           </li>
@@ -315,11 +159,7 @@ const DashBoard = () => {
         className="text-white bg-green-500 p-3 fixed top-4 right-4 rounded-full shadow-md md:hidden z-50"
         onClick={() => setMenuOpen(!menuOpen)}
       >
-        {menuOpen ? (
-          <FaTimes className="text-xl" />
-        ) : (
-          <FaBars className="text-xl" />
-        )}
+        {menuOpen ? <FaTimes className="text-xl" /> : <FaBars className="text-xl" />}
       </button>
 
       {/* Main content area */}

@@ -93,17 +93,17 @@ const CourseDetails = () => {
             {/* Go Back Button */}
             <button
               onClick={() => window.history.back()}
-              className="bg-amber-600 text-white py-3 px-8 rounded-lg shadow-md hover:bg-amber-700 transition duration-300 font-semibold hover:shadow-lg"
+              className="btn btn-lg bg-gradient-to-r from-green-500 to-amber-500  text-white py-2 px-4 font-semibold rounded-2xl shadow-md"
             >
-              🔙 Back 
+              🔙 Back Home
             </button>
 
             {/* Buy Course Button */}
             <button
               onClick={() => alert("Course purchased!")}
-              className="bg-green-600 text-white py-3 px-8 rounded-lg shadow-md hover:bg-green-700 transition duration-300 font-semibold hover:shadow-lg"
+              className="btn btn-lg bg-gradient-to-r from-green-500 to-amber-500  text-white py-2 px-4 font-semibold rounded-2xl shadow-md"
             >
-              💸 Buy Now
+              💸 Buy Course
             </button>
           </div>
         </div>
