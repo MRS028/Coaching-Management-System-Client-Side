@@ -21,7 +21,7 @@ const ManageTeachers = () => {
 
   // Filtering: Search by name or email
   const filteredTeachers = sortedUsers
-    .filter((user) => user.role === "teacher") 
+    .filter((user) => user?.role === "teacher") 
     .filter(
       (user) =>
         `${user?.name} ${user?.email}`

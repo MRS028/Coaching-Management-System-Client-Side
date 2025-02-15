@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 const useCourses = () => {
   const axiosPublic = useAxiosPublic();
   const {
-    data: courses = [],
+    data: courses = [ ],
     isPending: loading,
     refetch,
   } = useQuery({

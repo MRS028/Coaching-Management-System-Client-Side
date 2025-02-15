@@ -86,20 +86,24 @@ const NavBar = () => {
           Contact
         </NavLink>
       </li>
-      {
-        user && user.email ? <><li className="pt-2">
-        <NavLink
-          to="/dashboard/AdminHome"
-          className={({ isActive }) =>
-            isActive
-              ? "text-amber-600 font-bold"
-              : "text-gray-700 hover:text-amber-500"
-          }
-        >
-          Dashboard
-        </NavLink>
-      </li></> : ''
-      }
+      {user && user.email ? (
+        <>
+          <li className="pt-2">
+            <NavLink
+              to="/dashboard/AdminHome"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-amber-600 font-bold"
+                  : "text-gray-700 hover:text-amber-500"
+              }
+            >
+              Dashboard
+            </NavLink>
+          </li>
+        </>
+      ) : (
+        ""
+      )}
       <li>
         {user && user?.email ? (
           <>
@@ -149,7 +153,11 @@ const NavBar = () => {
               to="/"
               className="md:text-2xl text-xl  font-bold text-green-500"
             >
-              <img src={logo} alt="" className="md:w-40 h-18 pt-2 inline-block" />
+              <img
+                src={logo}
+                alt=""
+                className="md:w-40 h-18 pt-2 inline-block"
+              />
             </NavLink>
           </div>
 
@@ -211,6 +219,24 @@ const NavBar = () => {
                 Contact
               </NavLink>
             </li>
+            {user && user.email ? (
+              <>
+                <li className="">
+                  <NavLink
+                    to="/dashboard/AdminHome"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "text-amber-600 font-bold"
+                        : "text-gray-700 hover:text-amber-500"
+                    }
+                  >
+                    Dashboard
+                  </NavLink>
+                </li>
+              </>
+            ) : (
+              ""
+            )}
             <li>
               {user && user?.email ? (
                 <>

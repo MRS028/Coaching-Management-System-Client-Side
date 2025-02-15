@@ -47,7 +47,7 @@ const Courses = () => {
                 </p>
                 <p className="text-gray-700 flex items-center">
                   <FaBook className="mr-2 text-amber-600" />
-                  <span className="font-semibold mr-1">Subject:</span> {course.subjects.length > 0 ? `${course.subjects[0]}, ${course.subjects[1]}${course.subjects.length > 2 ? '...' : ''}` : ''}
+                  <span className="font-semibold mr-1">Subject:</span> {course?.subjects?.length > 0 ? `${course.subjects[0]}, ${course.subjects[1]}${course.subjects.length > 2 ? '...' : ''}` : ''}
 
                 </p>
                 <p className="text-gray-700 flex items-center">

@@ -8,6 +8,7 @@ import SectionTitle from "../../../Pages/SectionTitle/SectionTitle";
 import useScrolltoTop from "../../../Hooks/useScrolltoTop";
 
 const AddCourse = () => {
+  useScrolltoTop();
   const {
     register,
     handleSubmit,
@@ -22,13 +23,14 @@ const AddCourse = () => {
   const navigate = useNavigate();
 
   const handleImageChange = (event) => {
-    useScrolltoTop();
     const file = event.target.files[0];
     if (file) {
       setSelectedFile(file);
-      setImagePreview(URL.createObjectURL(file));
+      const imageUrl = URL.createObjectURL(file);
+      setImagePreview(imageUrl); // imagePreview আপডেট করো
     }
   };
+  
 
   const onSubmit = async (data) => {
     Swal.fire({
@@ -56,8 +58,9 @@ const AddCourse = () => {
 
     const courseData = {
       ...data,
+      fee: parseInt(data.fee),
       count: 0,
-      date: new date(),
+      date: new Date(),
       image: uploadedUrl,
       subjects: data.subjects
         ? data.subjects.split(",").map((s) => s.trim())
@@ -129,11 +132,11 @@ const AddCourse = () => {
             )}
             {/* Image Preview */}
             {imagePreview && (
-              <div className="mt-2">
+              <div className="mt-2 h-40 md:h-56">
                 <img
                   src={imagePreview}
                   alt="Preview"
-                  className="w-full h-40 object-cover rounded-lg"
+                  className="w-full h-full  rounded-lg"
                 />
               </div>
             )}
