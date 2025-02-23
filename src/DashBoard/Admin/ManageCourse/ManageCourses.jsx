@@ -13,7 +13,6 @@ const ManageCourses = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCourse, setSelectedCourse] = useState();
   const axiosSecure = useAxiosSecure();
-
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const itemsPerPage = 6;
 

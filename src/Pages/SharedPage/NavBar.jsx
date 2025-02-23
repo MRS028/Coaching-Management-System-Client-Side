@@ -4,11 +4,16 @@ import { FaBars, FaSignOutAlt, FaTimes } from "react-icons/fa";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
 import logo from "../../assets/CMSlogo.png";
+import useUsers from "../../Hooks/useUsers";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, logOut, loading } = useAuth();
-  console.log(loading);
+  const [users,refetch] = useUsers()
+  // console.log(loading);
+const isAnyAdmin = users.some(u => u.isAdmin);
+console.log(isAnyAdmin); 
+
 
   const handleLogOut = () => {
     Swal.fire({
@@ -90,7 +95,14 @@ const NavBar = () => {
         <>
           <li className="pt-2">
             <NavLink
-              to="/dashboard/AdminHome"
+              to={`${
+                users.some((u) => u.email === user.email && u.role === "admin")
+                  ? "/dashboard/adminHome"
+                  : users.some((u) => u.email === user.email && u.role === "teacher")
+                  ? "/dashboard/teacherHome"
+                  : "/dashboard/studentHome"
+              }`}
+              
               className={({ isActive }) =>
                 isActive
                   ? "text-amber-600 font-bold"

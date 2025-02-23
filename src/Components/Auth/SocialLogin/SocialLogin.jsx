@@ -27,6 +27,7 @@ const SocialLogin = () => {
           version: " ",
           school: " ",
           phone: " ",
+          role: "student",
 
 
         };
@@ -71,7 +72,7 @@ const SocialLogin = () => {
           email: result.user?.email,
           name: result.user?.displayName,
           photoURL: result.user?.photoURL,
-          role: "user",
+          role: "student",
         };
 
         axiosPublic

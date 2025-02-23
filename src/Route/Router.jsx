@@ -15,6 +15,7 @@ import ManageStudents from "../DashBoard/Admin/ManageUsers/ManageStudents";
 import ManageTeachers from "../DashBoard/Admin/ManageTeachers/ManageTeachers";
 import TeacherHome from "../DashBoard/Teacher/TeacherHome.jsx/Teacherhome";
 import StudentHome from "../DashBoard/StudentDashboard/StudentHome";
+import MyCourse from "../DashBoard/StudentDashboard/MyCourse";
 
 const Router = createBrowserRouter([
   {
@@ -85,6 +86,10 @@ const Router = createBrowserRouter([
       {
         path: "studentHome",
         element: <StudentHome/>,
+      },
+      {
+        path: "myCourses",
+        element: <MyCourse/>
       },
 
       //Teachers Dashboard

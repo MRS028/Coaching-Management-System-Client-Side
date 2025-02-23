@@ -24,6 +24,7 @@ import useRole from "../../Hooks/useRole";
 import useSingleUser from "../../Hooks/useRole";
 import logo from "/CMSlogo2.png";
 import logo2 from "../../assets/CMSlogo.png"
+import Footer from "../../Pages/SharedPage/Footer";
 
 const DashBoard = () => {
   const { logOut, user } = useAuth();
@@ -367,9 +368,14 @@ const DashBoard = () => {
       </div>
 
       {/* Main content area */}
-      <div className="flex-1  ml-0 md:ml-64 p-2 md:p-6 md:overflow-x-auto">
+     
+      <div className="flex-1  ml-0 md:ml-64 p-1 md:p-6 md:overflow-x-auto">
         <Outlet />
+       
+        <Footer/>
       </div>
+
+      
     </div>
   );
 };

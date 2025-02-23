@@ -63,9 +63,10 @@ const ManageTeachers = () => {
               <th className="p-3 text-left border-r border-gray-300">Name</th>
               <th className="p-3 text-left border-r border-gray-300">Email</th>
               <th className="p-3 text-left border-r border-gray-300">Phone</th>
-              <th className="p-3 text-left border-r border-gray-300">Role</th>
-              <th className="p-3 text-left border-r border-gray-300">Version</th>
               <th className="p-3 text-left border-r border-gray-300">Created</th>
+              <th className="p-3 text-left border-r border-gray-300">Role</th>
+              <th className="p-3 text-left border-r border-gray-300">Assigned Class</th>
+             
               <th className="p-3 text-center border-r border-gray-300">Actions</th>
             </tr>
           </thead>
@@ -86,13 +87,14 @@ const ManageTeachers = () => {
                 <td className="p-3 font-semibold border-r border-gray-300">{user?.name || "N/A"}</td>
                 <td className="p-3 border-r border-gray-300">{user?.email || "N/A"}</td>
                 <td className="p-3 border-r border-gray-300">{user?.phone?.trim() || "N/A"}</td>
-                <td className="p-3 border-r border-gray-300">{user?.role?.trim() || "N/A"}</td>
-                <td className="p-3 border-r border-gray-300">{user?.version?.trim() || "N/A"}</td>
                 <td className="p-3 border-r border-gray-300">
                   {user?.created
                     ? new Date(user.created).toLocaleDateString()
                     : "N/A"}
                 </td>
+                <td className="p-3 border-r border-gray-300">{user?.role?.trim() || "N/A"}</td>
+                <td className="p-3 border-r text-center border-gray-300">{user?.assignedClass?.trim() || "N/A"}</td>
+                
                 <td className="p-3 flex gap-2 border-r border-gray-300">
                   <button className="btn btn-sm bg-gradient-to-b from-green-500 to-amber-400 text-white">
                     <FaEdit className="inline-block" /> Edit
