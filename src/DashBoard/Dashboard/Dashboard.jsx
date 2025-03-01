@@ -187,6 +187,19 @@ const DashBoard = () => {
                     <FaMoneyBill /> payment Status{" "}
                   </NavLink>
                 </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/manageRoutine"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "bg-amber-500 text-white"
+                        : "hover:bg-blue-800 hover:text-yellow-200"
+                    }
+                  >
+                    {" "}
+                    <FaMoneyBill /> Manage Classes{" "}
+                  </NavLink>
+                </li>
               </ul>
             </>
           )}
@@ -244,6 +257,19 @@ const DashBoard = () => {
                 >
                   {" "}
                   <FaMoneyBill /> Payment History{" "}
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/courses"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "bg-amber-500 text-white"
+                      : "hover:bg-blue-800 hover:text-yellow-200"
+                  }
+                >
+                  {" "}
+                  <FaBookOpen/> All Courses{" "}
                 </NavLink>
               </li>
             </>
@@ -369,7 +395,7 @@ const DashBoard = () => {
 
       {/* Main content area */}
      
-      <div className="flex-1  ml-0 md:ml-64 p-1 md:p-6 md:overflow-x-auto">
+      <div className="flex-1  ml-0 md:ml-64  md:overflow-x-auto">
         <Outlet />
        
         <Footer/>

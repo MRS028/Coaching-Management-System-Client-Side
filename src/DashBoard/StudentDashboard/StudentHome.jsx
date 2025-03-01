@@ -1,154 +1,69 @@
 import React from "react";
-import {
-  FaUserGraduate,
-  FaChalkboardTeacher,
-  FaStar,
-  FaCalendarAlt,
-  FaBook,
-  FaClipboardList,
-  FaChartLine,
-} from "react-icons/fa";
+import { FaBook, FaClipboardList, FaChartLine, FaCalendarAlt } from "react-icons/fa";
 
-const StudentHome = () => {
-  // Fake Data
-  const student = {
-    name: "Md Rifat Sheikh",
-    email: "rifat@example.com",
-    class: "10",
-    school: "Southeast High School",
-    gender: "Male",
-    rating: 4.5,
-    subjects: ["Math", "Science", "English", "History"],
-    teachers: [
-      { id: 1, name: "John Doe", subject: "Math" },
-      { id: 2, name: "Jane Smith", subject: "Science" },
-    ],
-    classSchedule: [
-      { id: 1, subject: "Math", time: "10:00 AM - 11:00 AM", date: "Mon, Wed, Fri" },
-      { id: 2, subject: "Science", time: "11:00 AM - 12:00 PM", date: "Tue, Thu" },
-    ],
-    assignments: [
-      { id: 1, title: "Algebra Homework", subject: "Math", dueDate: "2023-10-15", status: "Pending" },
-      { id: 2, title: "Physics Lab Report", subject: "Science", dueDate: "2023-10-20", status: "Completed" },
-    ],
-    exams: [
-      { id: 1, subject: "Math", date: "2023-10-25", time: "9:00 AM - 11:00 AM" },
-      { id: 2, subject: "Science", date: "2023-10-30", time: "10:00 AM - 12:00 PM" },
-    ],
-    progressReport: [
-      { id: 1, subject: "Math", score: 85, grade: "A" },
-      { id: 2, subject: "Science", score: 78, grade: "B+" },
-    ],
-  };
+const StudentDashboard = () => {
+  // **Fake Data**
+  const stats = [
+    { id: 1, icon: <FaBook className="text-blue-500 text-4xl mr-4" />, label: "Ongoing Classes", value: "5" },
+    { id: 2, icon: <FaClipboardList className="text-green-500 text-4xl mr-4" />, label: "Pending Assignments", value: "3" },
+    { id: 3, icon: <FaChartLine className="text-purple-500 text-4xl mr-4" />, label: "Overall Progress", value: "85%" },
+  ];
+
+  const schedule = [
+    { id: 1, subject: "Math Class", time: "10:00 AM" },
+    { id: 2, subject: "Physics Lab", time: "12:30 PM" },
+    { id: 3, subject: "Assignment Due", time: "5:00 PM" },
+  ];
+
+  const announcements = [
+    "📌 Midterm exams start next week.",
+    "📌 New course materials uploaded.",
+    "📌 Group study session on Friday.",
+  ];
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
+    <div className="min-h-screen bg-gray-100 p-6">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">Welcome, {student.name}!</h1>
+      <div className="bg-white shadow-md p-6 rounded-lg mb-6">
+        <h1 className="text-3xl font-bold text-gray-800">Welcome, Student!</h1>
         <p className="text-gray-600">Your personalized dashboard</p>
       </div>
 
-      {/* Grid Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* Student Profile Card */}
-        <div className="bg-white rounded-lg shadow-lg p-2">
-          <div className="flex items-center space-x-4">
-            <FaUserGraduate className="text-blue-500 text-4xl" />
+      {/* Stats Overview */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {stats.map((stat) => (
+          <div key={stat.id} className="bg-white shadow-lg rounded-lg p-6 flex items-center">
+            {stat.icon}
             <div>
-              <h2 className="text-xl font-bold text-gray-800">{student.name}</h2>
-              <p className="text-gray-600">{student.email}</p>
+              <h2 className="text-xl font-semibold">{stat.value}</h2>
+              <p className="text-gray-600">{stat.label}</p>
             </div>
           </div>
-          <div className="mt-4 space-y-2">
-            <p className="text-gray-600">🏫 {student.school}</p>
-            <p className="text-gray-600">📚 Class: {student.class}</p>
-            <p className="text-gray-600">🧑‍🎓 Gender: {student.gender}</p>
-            <div className="flex items-center space-x-2">
-              <FaStar className="text-yellow-500" />
-              <span className="text-gray-800 font-semibold">{student.rating}</span>
-            </div>
-          </div>
-        </div>
+        ))}
+      </div>
 
-        {/* Subjects Card */}
-        <div className="bg-white rounded-lg shadow-lg p-2">
-          <div className="flex items-center space-x-4 mb-4">
-            <FaBook className="text-purple-500 text-3xl" />
-            <h2 className="text-xl font-bold text-gray-800">Subjects</h2>
-          </div>
-          <ul className="space-y-2">
-            {student.subjects.map((subject, index) => (
-              <li key={index} className="text-gray-700">
-                {subject}
+      {/* Upcoming Schedule & Announcements */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        {/* Upcoming Schedule */}
+        <div className="bg-white shadow-md rounded-lg p-6">
+          <h2 className="text-xl font-semibold mb-4 flex items-center">
+            <FaCalendarAlt className="text-indigo-500 mr-2" /> Upcoming Schedule
+          </h2>
+          <ul className="space-y-3">
+            {schedule.map((item) => (
+              <li key={item.id} className="bg-gray-200 p-3 rounded-lg">
+                {item.subject} - {item.time}
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Teachers Card */}
-        <div className="bg-white rounded-lg shadow-lg p-2">
-          <div className="flex items-center space-x-4 mb-4">
-            <FaChalkboardTeacher className="text-green-500 text-3xl" />
-            <h2 className="text-xl font-bold text-gray-800">Teachers</h2>
-          </div>
+        {/* Announcements */}
+        <div className="bg-white shadow-md rounded-lg p-6">
+          <h2 className="text-xl font-semibold mb-4">📢 Announcements</h2>
           <ul className="space-y-2">
-            {student.teachers.map((teacher) => (
-              <li key={teacher.id} className="text-gray-700">
-                {teacher.name} - {teacher.subject}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Class Schedule Card */}
-        <div className="bg-white rounded-lg shadow-lg p-2">
-          <div className="flex items-center space-x-4 mb-4">
-            <FaCalendarAlt className="text-red-500 text-3xl" />
-            <h2 className="text-xl font-bold text-gray-800">Class Schedule</h2>
-          </div>
-          <ul className="space-y-2">
-            {student.classSchedule.map((schedule) => (
-              <li key={schedule.id} className="text-gray-700">
-                {schedule.subject} - {schedule.time} ({schedule.date})
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Assignments Card */}
-        <div className="bg-white rounded-lg shadow-lg p-2">
-          <div className="flex items-center space-x-4 mb-4">
-            <FaClipboardList className="text-orange-500 text-3xl" />
-            <h2 className="text-xl font-bold text-gray-800">Assignments</h2>
-          </div>
-          <ul className="space-y-2">
-            {student.assignments.map((assignment) => (
-              <li key={assignment.id} className="text-gray-700">
-                {assignment.title} - Due: {assignment.dueDate}{" "}
-                <span
-                  className={`font-semibold ${
-                    assignment.status === "Completed" ? "text-green-500" : "text-red-500"
-                  }`}
-                >
-                  ({assignment.status})
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Progress Report Card */}
-        <div className="bg-white rounded-lg shadow-lg p-2">
-          <div className="flex items-center space-x-4 mb-4">
-            <FaChartLine className="text-purple-500 text-3xl" />
-            <h2 className="text-xl font-bold text-gray-800">Progress Report</h2>
-          </div>
-          <ul className="space-y-2">
-            {student.progressReport.map((report) => (
-              <li key={report.id} className="text-gray-700">
-                {report.subject} - Score: {report.score} (Grade: {report.grade})
-              </li>
+            {announcements.map((announcement, index) => (
+              <li key={index} className="text-gray-600">{announcement}</li>
             ))}
           </ul>
         </div>
@@ -157,4 +72,4 @@ const StudentHome = () => {
   );
 };
 
-export default StudentHome;
+export default StudentDashboard;

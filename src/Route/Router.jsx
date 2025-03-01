@@ -16,6 +16,8 @@ import ManageTeachers from "../DashBoard/Admin/ManageTeachers/ManageTeachers";
 import TeacherHome from "../DashBoard/Teacher/TeacherHome.jsx/Teacherhome";
 import StudentHome from "../DashBoard/StudentDashboard/StudentHome";
 import MyCourse from "../DashBoard/StudentDashboard/MyCourse";
+import MyRoutine from "../DashBoard/StudentDashboard/MyRoutine";
+import CentralRoutine from "../DashBoard/Admin/AutoRoutine/CentralRoutine";
 
 const Router = createBrowserRouter([
   {
@@ -82,6 +84,10 @@ const Router = createBrowserRouter([
         path: "manageTeachers",
         element: <ManageTeachers/>,
       },
+      {
+        path: "manageRoutine",
+        element: <CentralRoutine/>,
+      },
       //student dashboard
       {
         path: "studentHome",
@@ -90,6 +96,10 @@ const Router = createBrowserRouter([
       {
         path: "myCourses",
         element: <MyCourse/>
+      },
+      {
+        path: "myRoutine",
+        element: <MyRoutine/>
       },
 
       //Teachers Dashboard
