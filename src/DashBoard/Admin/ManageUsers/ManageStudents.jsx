@@ -64,14 +64,15 @@ const ManageStudents = () => {
               <th className="p-3 text-left border-r border-gray-300">Email</th>
               <th className="p-3 text-left border-r border-gray-300">Phone</th>
               <th className="p-3 text-left border-r border-gray-300">School</th>
+              <th className="p-3 text-left border-r border-gray-300">Class</th>
               <th className="p-3 text-left border-r border-gray-300">Version</th>
-              <th className="p-3 text-left border-r border-gray-300">Created</th>
+              {/* <th className="p-3 text-left border-r border-gray-300">Created</th> */}
               <th className="p-3 text-center border-r border-gray-300">Actions</th>
             </tr>
           </thead>
           <tbody>
             {paginatedUsers.map((user,index) => (
-              <tr key={user?.email} className="hover:bg-gray-100 border-b border-r border-gray-300">
+              <tr key={user?.email} className="hover:bg-gray-100 text-center border-b border-r border-gray-300">
                 <td className="p-3 font-semibold border-r border-gray-300">{index+1}</td>
                 <td className="p-3 border-r border-gray-300">
                   <img
@@ -87,12 +88,13 @@ const ManageStudents = () => {
                 <td className="p-3 border-r border-gray-300">{user?.email || "N/A"}</td>
                 <td className="p-3 border-r border-gray-300">{user?.phone?.trim() || "N/A"}</td>
                 <td className="p-3 border-r border-gray-300">{user?.school?.trim() || "N/A"}</td>
+                <td className="p-3 border-r border-gray-300">{user?.class?.trim() || "N/A"}</td>
                 <td className="p-3 border-r border-gray-300">{user?.version?.trim() || "N/A"}</td>
-                <td className="p-3 border-r border-gray-300">
+                {/* <td className="p-3 border-r border-gray-300">
                   {user?.created
                     ? new Date(user.created).toLocaleDateString()
                     : "N/A"}
-                </td>
+                </td> */}
                 <td className="p-3 flex gap-2 border-r border-gray-300">
                   <button className="btn btn-sm bg-gradient-to-b from-green-500 to-amber-400 text-white">
                     <FaEdit className="inline-block" /> Edit
