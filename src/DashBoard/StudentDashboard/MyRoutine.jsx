@@ -153,13 +153,13 @@ const MyRoutine = () => {
         <SectionTitle title={"My Weekly Routine"} subtitle={"Be Prepared For the Next Day"} />
 
         {/* **Select Class and Version** */}
-        <div className="mb-6">
+        {/* <div className="mb-6">
           <select
             value={selectedClass}
             onChange={(e) => setSelectedClass(e.target.value)}
             className="mb-4 p-2 border rounded"
           >
-            <option value="Class 10">Class 10</option>
+            <option value ="Class 10">Class 10 </option>
             <option value="Class 11">Class 11</option>
             <option value="Class 12">Class 12</option>
           </select>
@@ -172,7 +172,7 @@ const MyRoutine = () => {
             <option value="English">English</option>
             <option value="Bangla">Bangla</option>
           </select>
-        </div>
+        </div> */}
 
         {/* **Student Information** */}
         {studentInfo && (
