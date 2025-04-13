@@ -18,6 +18,7 @@ import StudentHome from "../DashBoard/StudentDashboard/StudentHome";
 import MyCourse from "../DashBoard/StudentDashboard/MyCourse";
 import MyRoutine from "../DashBoard/StudentDashboard/MyRoutine";
 import CentralRoutine from "../DashBoard/Admin/AutoRoutine/CentralRoutine";
+import Contact from "../Pages/SharedPage/Contact";
 
 const Router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const Router = createBrowserRouter([
       {
         path: "/courses",
         element: <Courses />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
       },
       {
         path: "/course/:id",

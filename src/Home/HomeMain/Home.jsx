@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import { FaChalkboardTeacher, FaUsers, FaCertificate } from "react-icons/fa";
 import useScrolltoTop from "../../Hooks/useScrolltoTop";
+import HomeBanner from "./HomeBanner";
 
 const Home = () => {
   useScrolltoTop();
   return (
     <div className="bg-gray-50">
+      <HomeBanner/>
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-green-500 to-blue-500 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
