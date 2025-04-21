@@ -25,6 +25,7 @@ import useSingleUser from "../../Hooks/useRole";
 import logo from "/CMSlogo2.png";
 import logo2 from "../../assets/CMSlogo.png"
 import Footer from "../../Pages/SharedPage/Footer";
+import Loading from "../../Components/Loading/Loading";
 
 const DashBoard = () => {
   const { logOut, user } = useAuth();
@@ -40,7 +41,7 @@ const DashBoard = () => {
   }, [location]);
 
   if (roleLoading) {
-    return <p className="text-center text-xl">Loading Dashboard...</p>;
+    return <Loading/>;
   }
 
   const handleLogOut = () => {

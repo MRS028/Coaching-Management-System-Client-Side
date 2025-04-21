@@ -6,6 +6,7 @@ import SectionTitle from '../../Pages/SectionTitle/SectionTitle';
 import useStudents from '../../Hooks/StudentRelated/useStudents';
 import useAxiosSecure from '../../Hooks/useaxiosSecure';
 import useAuth from '../../Hooks/useAuth';
+import Loading from '../../Components/Loading/Loading';
 
 const MyRoutine = () => {
   const [students, loading] = useStudents();
@@ -109,7 +110,7 @@ const MyRoutine = () => {
   };
 
   if (loading) {
-    return <p className="text-center text-xl font-semibold text-blue-500">Loading students...</p>;
+    return <Loading/>;
   }
 
   return (

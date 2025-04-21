@@ -20,6 +20,11 @@ import MyRoutine from "../DashBoard/StudentDashboard/MyRoutine";
 import CentralRoutine from "../DashBoard/Admin/AutoRoutine/CentralRoutine";
 import Contact from "../Pages/SharedPage/Contact";
 import EnrollmentForm from "../Pages/CourseEnrolment/EnrollmentForm";
+import PaymentStd from "../DashBoard/Admin/Payment/PaymentStd";
+import Admission from "../DashBoard/Admin/Admission/Admission";
+import MyClass from "../DashBoard/Teacher/Class/MyClass";
+import STDProgress from "../DashBoard/Teacher/Student/STDProgress";
+import TeacherProfile from "../DashBoard/Teacher/Profile/TeacherProfile";
 
 const Router = createBrowserRouter([
   {
@@ -98,6 +103,14 @@ const Router = createBrowserRouter([
         path: "manageRoutine",
         element: <CentralRoutine/>,
       },
+      {
+        path: "paymentStatus",
+        element: <PaymentStd/>,
+      },
+      {
+        path: "admission",
+        element: <Admission/>,
+      },
       //student dashboard
       {
         path: "studentHome",
@@ -111,12 +124,28 @@ const Router = createBrowserRouter([
         path: "myRoutine",
         element: <MyRoutine/>
       },
+      {
+        path: "paymentHistory",
+        element: <PaymentStd/>
+      },
       
 
       //Teachers Dashboard
       {
         path: "teacherHome",
         element: <TeacherHome/>,
+      },
+      {
+        path: "myClasses",
+        element: <MyClass/>,
+      },
+      {
+        path: "studentProgress",
+        element: <STDProgress/>,
+      },
+      {
+        path: "teacherProfile",
+        element: <TeacherProfile/>,
       },
     ],
   },
