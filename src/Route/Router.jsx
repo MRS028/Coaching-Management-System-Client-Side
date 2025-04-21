@@ -19,6 +19,7 @@ import MyCourse from "../DashBoard/StudentDashboard/MyCourse";
 import MyRoutine from "../DashBoard/StudentDashboard/MyRoutine";
 import CentralRoutine from "../DashBoard/Admin/AutoRoutine/CentralRoutine";
 import Contact from "../Pages/SharedPage/Contact";
+import EnrollmentForm from "../Pages/CourseEnrolment/EnrollmentForm";
 
 const Router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const Router = createBrowserRouter([
       {
         path: "/course/:id",
         element: <CourseDetails />,
+      },
+      {
+        path: "enrollmentForm",
+        element: <PrivateRoute><EnrollmentForm/></PrivateRoute>
       },
       {
         path: "",
@@ -106,6 +111,7 @@ const Router = createBrowserRouter([
         path: "myRoutine",
         element: <MyRoutine/>
       },
+      
 
       //Teachers Dashboard
       {

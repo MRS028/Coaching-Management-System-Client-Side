@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useCourses from "../../Hooks/useCourses";
 import LoadingSpinner from "../../Components/LoadingPage/LoadingSpinner";
 import useScrolltoTop from "../../Hooks/useScrolltoTop";
@@ -8,6 +8,7 @@ const CourseDetails = () => {
   const { id } = useParams();
   useScrolltoTop();
   const [courses, loading] = useCourses();
+  const navigate = useNavigate()
 
   if (loading) {
     return <LoadingSpinner />;
@@ -115,7 +116,7 @@ const CourseDetails = () => {
 
             {/* Buy Course Button */}
             <button
-              onClick={() => alert("Course purchased!")}
+              onClick={() => navigate("/enrollmentForm", { state: { id } })}
               className="btn btn-lg bg-gradient-to-r from-green-500 to-amber-500  text-white py-2 px-4 font-semibold rounded-2xl shadow-md"
             >
               💸 Buy Course

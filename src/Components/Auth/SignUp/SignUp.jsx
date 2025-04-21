@@ -4,17 +4,13 @@ import {
   FaUser,
   FaEnvelope,
   FaPhone,
-  FaMapMarker,
   FaKey,
   FaEye,
   FaEyeSlash,
   FaUpload,
-  FaBook,
-  FaSchool,
-  FaLanguage,
   FaVenusMars,
 } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom"; // Assuming you're using React Router for navigation
+import { Link, useNavigate } from "react-router-dom";
 import useScrolltoTop from "../../../Hooks/useScrolltoTop";
 import useAuth from "../../../Hooks/useAuth";
 import { Helmet } from "react-helmet";
@@ -52,8 +48,6 @@ const SignUp = () => {
       },
     });
 
-    // console.log(data);
-
     const imageFile = { image: data.profileImage[0] };
     const res = await axiosPublic.post(image_hosting_api, imageFile, {
       headers: {
@@ -62,7 +56,6 @@ const SignUp = () => {
     });
 
     const photoURL = res.data?.data?.display_url;
-    //console.log();
 
     createUser(data.email, data.password)
       .then((result) => {
@@ -75,10 +68,7 @@ const SignUp = () => {
               name: data.fullName,
               email: data.email,
               photoURL: photoURL,
-              class: data.class,
               role: data.role,
-              school: data.school,
-              version: data.language,
               created: new Date(),
               phone: data.phone,
               gender: data.gender,
@@ -95,53 +85,40 @@ const SignUp = () => {
               }),
             };
             
-            // console.log(userInfo);
-            
-            //console.log(userInfo);
-
             axiosPublic
-            .post("/users", userInfo)
-            .then((res) => {
-              Swal.close();
-              if (res.data.insertedId) {
-                reset();
+              .post("/users", userInfo)
+              .then((res) => {
+                Swal.close();
+                if (res.data.insertedId) {
+                  reset();
+                  Swal.fire({
+                    title: "Sign Up Successful",
+                    text: "Assalamuwalaikum, Welcome to our MediCamp",
+                    icon: "success",
+                    timer: 1500,
+                  });
+                  navigate("/");
+                }
+              })
+              .catch((err) => {
+                Swal.close();
                 Swal.fire({
-                  title: "Sign Up Successful",
-                  text: "Assalamuwalaikum, Welcome to our MediCamp",
-                  icon: "success",
-                  timer: 1500,
+                  title: "An Error Occurred",
+                  text: err.message || "Something went wrong. Please try again later.",
+                  icon: "error",
                 });
-
-                navigate("/");
-              }
-            })
-            .catch((err) => {
-              // console.log(err);
-              Swal.close();
-              Swal.fire({
-                title: "An Error Occurred",
-                text:
-                  err.message ||
-                  "Something went wrong. Please try again later.",
-                icon: "error",
               });
-            });
-           
-            
           })
           .catch((err) => {
-            // console.log(err);
             Swal.close();
             Swal.fire({
               title: "An Error Occurred",
-              text:
-                err.message || "Something went wrong. Please try again later.",
+              text: err.message || "Something went wrong. Please try again later.",
               icon: "error",
             });
           });
       })
       .catch((err) => {
-        // console.log(err);
         Swal.close();
         Swal.fire({
           title: "An Error Occurred",
@@ -150,7 +127,6 @@ const SignUp = () => {
         });
       });
 
-    // console.log(data);
     if (profileImage) {
       console.log("Profile Image:", profileImage);
     }
@@ -177,7 +153,7 @@ const SignUp = () => {
           <img
             src={logo}
             alt=""
-            className="w-20 h-20 rounded-full border  justify-center"
+            className="w-20 h-20 rounded-full border justify-center"
           />
         </div>
         <h2 className="text-3xl font-bold text-center text-gray-700 mb-6">
@@ -303,120 +279,6 @@ const SignUp = () => {
             )}
           </div>
 
-          {/* School name */}
-          <div className="mb-4 text-gray-800 relative">
-            <label htmlFor="school" className="block text-gray-600 mb-2">
-              School Name
-            </label>
-            <div className="relative">
-              <select
-                id="school"
-                className={`w-full pl-10 pr-4 py-2 border ${
-                  errors.school ? "border-red-500" : "border-gray-300"
-                } rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-200 appearance-none`}
-                {...register("school", { required: "School name is required" })}
-              >
-                <option value="">Select your school</option>
-                {/* <option value="teacher" className="text-red-500 font-semibold">
-                  Teacher
-                </option> */}
-                <option value="Others" className="text-red-500 font-semibold">
-                  Others
-                </option>
-
-                <option value="BPATC School & College">
-                  BPATC School & College
-                </option>
-                <option value="Cant. Public School">Cant. Public School</option>
-                <option value="Morning Glory School">
-                  Morning Glory School
-                </option>
-                <option value="Fair Anjuman School">Fair Anjuman School</option>
-                <option value="Savar Model School">Savar Model School</option>
-              </select>
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FaSchool className="text-gray-500" />
-              </div>
-            </div>
-            {errors.school && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.school.message}
-              </p>
-            )}
-          </div>
-          {/* Class Input */}
-          <div className="mb-4 text-gray-800 relative">
-            <label htmlFor="class" className="block text-gray-600 mb-2">
-              Class
-            </label>
-            <div className="relative">
-              <select
-                id="class"
-                className={`w-full pl-10 pr-4 py-2 border ${
-                  errors.class ? "border-red-500" : "border-gray-300"
-                } rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-200 appearance-none`}
-                {...register("class", { required: "Class is required" })}
-              >
-                <option value="">Select your class</option>
-                {/* <option value="teacher" className="text-red-500 font-semibold">
-                  Teacher
-                </option> */}
-                <option value="Others" className="text-red-500 font-semibold">
-                  Others
-                </option>
-
-                {[...Array(10).keys()].map((i) => (
-                  <>
-                    <option key={i + 3} value={i + 3}>
-                      {i + 3}th Class
-                    </option>
-                  </>
-                ))}
-              </select>
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FaBook className="text-gray-500" />{" "}
-                {/* আইকন হিসেবে FaBook ব্যবহার করা হয়েছে */}
-              </div>
-            </div>
-            {errors.class && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.class.message}
-              </p>
-            )}
-          </div>
-          {/*study Version */}
-          <div className="mb-4 text-gray-800 relative">
-            <label htmlFor="language" className="block text-gray-600 mb-2">
-              Language Version
-            </label>
-            <div className="relative">
-              <select
-                id="language"
-                className={`w-full pl-10 pr-4 py-2 border ${
-                  errors.language ? "border-red-500" : "border-gray-300"
-                } rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-200 appearance-none`}
-                {...register("language", {
-                  required: "Please select a language version",
-                })}
-              >
-                <option value="">Select language version</option>
-                {/* <option value="teacher" className="text-red-500 font-semibold">
-                  Teacher
-                </option> */}
-                <option value="English">English</option>
-                <option value="Bangla">Bangla</option>
-              </select>
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FaLanguage className="text-gray-500" />
-              </div>
-            </div>
-            {errors.language && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.language.message}
-              </p>
-            )}
-          </div>
-
           {/* Password Input */}
           <div className="mb-6 relative text-gray-800">
             <label htmlFor="password" className="block text-gray-600 mb-2">
@@ -490,6 +352,7 @@ const SignUp = () => {
               </p>
             )}
           </div>
+
           {/* Role Selection */}
           <div className="mb-4 text-gray-800">
             <label className="block text-gray-600 mb-2">Role</label>
@@ -531,7 +394,7 @@ const SignUp = () => {
             <p className="text-gray-600">
               {"Already have an account?"}{" "}
               <Link
-                to="/auth/login" // Replace with your login route
+                to="/auth/login"
                 className="text-green-500 hover:text-blue-600 transition duration-200"
               >
                 Log In

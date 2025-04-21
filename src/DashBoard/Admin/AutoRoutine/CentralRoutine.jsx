@@ -13,6 +13,8 @@ const CentralRoutine = () => {
     "Class 8",
     "Class 9",
     "Class 10",
+    "Class 11",
+    "Class 12",
   ];
   const versions = ["English", "Bangla"];
   const [selectedClass, setSelectedClass] = useState("Class 10");

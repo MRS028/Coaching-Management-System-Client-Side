@@ -3,12 +3,12 @@ import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-gray-300 py-8 mt-5">
+    <footer className="bg-gray-900 text-gray-300 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Logo & About */}
           <div>
-            <h2 className="text-2xl font-bold text-white">Study Coaching Center</h2>
+            <h2 className="text-2xl font-bold text-white">Oddhayon Coaching Center</h2>
             <p className="mt-2 text-sm">
               Hard work never fails, success will surely come, you just need to keep trying. We are committed to helping you achieve your dreams.
             </p>
@@ -55,7 +55,10 @@ const Footer = () => {
 
         {/* Copyright */}
         <div className="mt-6 border-t border-gray-700 pt-4 text-center text-sm">
-          © {new Date().getFullYear()} Study Coaching Center, Savar | All rights reserved
+          <p>© {new Date().getFullYear()} Study Coaching Center, Savar | All rights reserved</p>
+          <p className="mt-1 text-gray-400">
+            Developed by <span className="text-amber-400 font-semibold"><a href="https://www.facebook.com/sheikh.rifat.28">Md. Rifat Sheikh</a></span> <br  className="lg:hidden sm:flex"/>Senior Teacher, Oddhayon Coaching Center
+          </p>
         </div>
       </div>
     </footer>
