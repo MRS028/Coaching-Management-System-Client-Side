@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaArrowRight, FaArrowLeft, FaChevronRight, FaStar, FaChalkboardTeacher, FaUserGraduate, FaAward } from 'react-icons/fa';
 import { Typewriter } from 'react-simple-typewriter';
+import Marquee from 'react-fast-marquee';
 
 
 const HomeBanner = () => {
@@ -8,7 +9,7 @@ const HomeBanner = () => {
     {
       id: 1,
       title: "শ্রেষ্ঠ শিক্ষার মাধ্যমে স্বপ্নের বিশ্ববিদ্যালয়ে ভর্তি হোন",
-      description: "আমাদের বিশেষায়িত কোচিং প্রোগ্রামে ভর্তি হয়ে পাচ্ছেন অভিজ্ঞ শিক্ষকদের সরাসরি গাইডলাইন ...",
+      description: "বিশ্বস্ত ও অভিজ্ঞ শিক্ষকদের সরাসরি গাইডলাইনে আমাদের বিশেষায়িত কোচিং প্রোগ্রামে অংশগ্রহণ করুন এবং আপনার প্রস্তুতিতে এগিয়ে যান। ...",
       buttonText: "এখনই ভর্তি হও",
       buttonColor: "bg-gradient-to-r from-blue-600 to-green-600",
       imageUrl: "https://i.ibb.co/0yvBYMhQ/allcoaching.jpg",
@@ -32,7 +33,7 @@ const HomeBanner = () => {
     {
       id: 3,
       title: "আধুনিক শ্রেণীকক্ষ ও সুযোগ-সুবিধা সহ প্রিমিয়াম কোচিং",
-      description: "আমাদের আধুনিক শ্রেণীকক্ষে পড়াশোনা করুন যেখানে সব ধরনের প্রযুক্তিগত সুবিধা রয়েছে ...",
+      description: "আমাদের আধুনিক শ্রেণীকক্ষে পড়াশোনা করুন যেখানে সব ধরনের প্রযুক্তিগত সুবিধা রয়েছে ,আমাদের শ্রেণীকক্ষে প্রযুক্তির সাথে আধুনিক শিক্ষা পদ্ধতির সমন্বয়।...",
       buttonText: "সুবিধাগুলো দেখুন",
       buttonColor: "bg-gradient-to-r from-orange-600 to-red-600",
       imageUrl: "https://i.ibb.co.com/yFhDBC3W/coaching.jpg",
@@ -44,7 +45,7 @@ const HomeBanner = () => {
     {
       id: 4,
       title: "বিশ্বস্ত এবং অভিজ্ঞ শিক্ষকবৃন্দ...",
-      description: "আমাদের শিক্ষকগণ প্রতিযোগিতামূলক পরীক্ষায় অভিজ্ঞ, ...",
+      description: "আমাদের শিক্ষকগণ প্রতিযোগিতামূলক পরীক্ষায় অভিজ্ঞ,আমাদের শিক্ষকগণ প্রতিযোগিতামূলক পরীক্ষায় অভিজ্ঞ, যারা শিক্ষার্থীদের সাফল্যের পথে পথপ্রদর্শক। ...",
       buttonText: "শিক্ষকদের পরিচিতি",
       buttonColor: "bg-gradient-to-r from-indigo-600 to-blue-600",
       imageUrl: "https://i.ibb.co.com/zTRwNb97/coaching-teachers.jpg",
@@ -113,35 +114,35 @@ const HomeBanner = () => {
           <div className="relative h-full flex items-center">
             <div className="container mx-auto px-4 sm:px-6 lg:px-12">
               <div className="max-w-2xl text-white mt-6">
-                <div className='h-52'>
-                <h1 className="text-2xl sm:text-3xl backdrop-blur-xs text-white md:text-4xl lg:text-4xl font-bold mb-4 border bg-gradient-to-r border-none p-4 rounded-4xl sm:mb-6 leading-tight drop-shadow-lg">
-                  <Typewriter
-                    words={[slide.title]}
-                    cursor={false}
-                    cursorStyle="_"
-                    typeSpeed={100}
-                    loop={Infinity}
+                <div className='h-40'>
+                  {/* <h1 className="text-2xl hidden sm:text-3xl backdrop-blur-xs text-white md:text-4xl lg:text-4xl font-bold mb-4 border bg-gradient-to-r border-none p-4 rounded-4xl sm:mb-6 leading-tight drop-shadow-lg">
+                    <Typewriter
+                      words={[slide.title]}
+                      cursor={false}
+                      cursorStyle="_"
+                      typeSpeed={100}
+                      loop={Infinity}
 
-                    deleteSpeed={60}
-                    delaySpeed={1000}
-                  />
-                </h1>
-
-                <p className="text-base font-bold backdrop-blur-sm text-white p-2 rounded-4xl px-3 sm:text-lg md:text-xl mb-6 sm:mb-8 opacity-95 drop-shadow-md">
-                  <Typewriter
-                    words={[slide.description]}
-                    loop={Infinity}
-                    cursor={false}
-                    cursorStyle="|"
-                    typeSpeed={100}
-                    deleteSpeed={30}
-                    delaySpeed={1000}
-                  />
-                </p>
+                      deleteSpeed={60}
+                      delaySpeed={1000}
+                    />
+                  </h1> */}
+{/* 
+                  <p className="text-base hidden font-bold backdrop-blur-sm text-white p-2 rounded-4xl px-3 sm:text-lg md:text-xl mb-6 sm:mb-8 opacity-95 drop-shadow-md">
+                    <Typewriter
+                      words={[slide.description]}
+                      loop={Infinity}
+                      cursor={false}
+                      cursorStyle="|"
+                      typeSpeed={100}
+                      deleteSpeed={30}
+                      delaySpeed={1000}
+                    />
+                  </p> */}
                 </div>
 
 
-                <div className="flex flex-wrap gap-2 mx-4 md:mx-0 sm:gap-3 mb-4 sm:mb-6 md:mb-8">
+                <div className="flex pt-16 flex-wrap gap-2 mx-4 md:mx-0 sm:gap-3 mb-2 sm:mb-6 md:mb-4">
                   {slide.stats.map((stat, i) => (
                     <div key={i} className="flex items-center bg-black bg-opacity-30 px-3 py-1 sm:px-4 sm:py-2 rounded-full backdrop-blur-sm text-sm sm:text-base">
                       <span className="mr-2 text-yellow-300">{stat.icon}</span>
@@ -149,14 +150,20 @@ const HomeBanner = () => {
                     </div>
                   ))}
                 </div>
-                <div className='flex justify-center md:justify-start'> 
-                <button className={`${slide.buttonColor} text-white  py-3 px-6 sm:py-4 rounded-full font-bold text-base sm:text-lg hover:shadow-lg transition-all transform hover:scale-105 flex items-center`}>
-                  {slide.buttonText}
-                  <FaChevronRight className="ml-2" />
-                </button>
+                <div className='flex justify-center md:justify-start'>
+                  <button className={`${slide.buttonColor} text-white  py-3 px-6 sm:py-4 rounded-full font-bold text-base sm:text-lg hover:shadow-lg transition-all transform hover:scale-105 flex items-center`}>
+                    {slide.buttonText}
+                    <FaChevronRight className="ml-2" />
+                  </button>
                 </div>
+                <p className="text-base mt-4 font-bold backdrop-blur-sm text-white p-2 rounded-2xl  sm:text-lg md:text-xl mb-6 sm:mb-8 opacity-95 drop-shadow-md">
+                <Marquee gradient={false} speed={70} pauseOnHover={true}>
+                  {slide.description}
+                </Marquee>
+              </p>
 
               </div>
+              
             </div>
           </div>
         </div>
