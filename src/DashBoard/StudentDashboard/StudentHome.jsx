@@ -1,7 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaBook, FaClipboardList, FaChartLine, FaCalendarAlt } from "react-icons/fa";
+import useAuth from "../../Hooks/useAuth";
+import useStudents from "../../Hooks/StudentRelated/useStudents";
+
 
 const StudentDashboard = () => {
+  const { user } = useAuth();
+  const [students, loading] = useStudents();
+  const [studentInfo, setStudentInfo] = useState(null);
+  console.log(user)
+  useEffect(() => {
+    if (students.length > 0 && user?.email) {
+      const matchedStudent = students.find(stu => stu.email === user.email);
+      setStudentInfo(matchedStudent || null);
+    }
+  }, [students, user]);
+
+  console.log(studentInfo)
+
+
   // **Fake Data**
   const stats = [
     { id: 1, icon: <FaBook className="text-blue-500 text-4xl mr-4" />, label: "Ongoing Classes", value: "5" },

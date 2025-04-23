@@ -107,7 +107,7 @@ const Contact = () => {
                   </div>
                   <div className="ml-3">
                     <h3 className="text-lg font-medium text-gray-900">Phone</h3>
-                    <p className="text-gray-600">Main: +880 1234-567890<br />Admissions: +880 1234-567891</p>
+                    <p className="text-gray-600">Main: +880955554414<br />Admissions: +8801966601000</p>
                   </div>
                 </div>
 
@@ -117,7 +117,7 @@ const Contact = () => {
                   </div>
                   <div className="ml-3">
                     <h3 className="text-lg font-medium text-gray-900">Email</h3>
-                    <p className="text-gray-600">info@excellencecoaching.com.bd<br />admission@excellencecoaching.com.bd</p>
+                    <p className="text-gray-600">info@oddhayoncoaching.com.bd<br />admission@oddhayoncoaching.com.bd</p>
                   </div>
                 </div>
 
@@ -159,12 +159,13 @@ const Contact = () => {
           <h2 className="text-2xl font-bold text-gray-800 mb-6">Find Us on Map</h2>
           <div className="aspect-w-16 aspect-h-9">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d3652.246669849627!2d90.2522099!3d23.838645!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbd!4v1620000000000"
+              src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.123456789!2d90.2547114!3d23.8390733!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755ebf5c9ecf66b%3A0xc07ec6be022932a2!2sOddhayon%20Coaching%20Center!5e0!3m2!1sen!2sbd!4v1234567890!5m2!1sen!2sbd`}
               width="100%"
               height="450"
               style={{ border: 0 }}
-              allowFullScreen=""
+              allowFullScreen
               loading="lazy"
+              title="Oddhayon Coaching Center Location"
             ></iframe>
           </div>
         </div>

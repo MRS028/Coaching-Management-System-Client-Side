@@ -32,103 +32,85 @@ const SignUp = () => {
   } = useForm();
   useScrolltoTop();
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [profileImage, setProfileImage] = useState(null);
   const { createUser, updateUserProfile } = useAuth();
-
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    Swal.fire({
-      title: "Loading...",
-      text: "Please wait while we process your request.",
-      allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
-
-    const imageFile = { image: data.profileImage[0] };
-    const res = await axiosPublic.post(image_hosting_api, imageFile, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-
-    const photoURL = res.data?.data?.display_url;
-
-    createUser(data.email, data.password)
-      .then((result) => {
-        const loggedUser = result.user;
-        console.log("User created: ", loggedUser);
-
-        updateUserProfile(data?.fullName, photoURL)
-          .then(() => {
-            const userInfo = {
-              name: data.fullName,
-              email: data.email,
-              photoURL: photoURL,
-              role: data.role,
-              created: new Date(),
-              phone: data.phone,
-              gender: data.gender,
-              ...(data.role === "teacher" && {
-                classes: [
-                  { id: 1, name: "seven", students: 1 },
-                  { id: 2, name: "ten", students: 1 },
-                  { id: 3, name: "nine", students: 1 },
-                  { id: 4, name: "eight", students: 1 },
-                  { id: 5, name: "six", students: 1 },
-                ],
-                students: 1,
-                rating: 1,
-              }),
-            };
-            
-            axiosPublic
-              .post("/users", userInfo)
-              .then((res) => {
-                Swal.close();
-                if (res.data.insertedId) {
-                  reset();
-                  Swal.fire({
-                    title: "Sign Up Successful",
-                    text: "Assalamuwalaikum, Welcome to our MediCamp",
-                    icon: "success",
-                    timer: 1500,
-                  });
-                  navigate("/");
-                }
-              })
-              .catch((err) => {
-                Swal.close();
-                Swal.fire({
-                  title: "An Error Occurred",
-                  text: err.message || "Something went wrong. Please try again later.",
-                  icon: "error",
-                });
-              });
-          })
-          .catch((err) => {
-            Swal.close();
-            Swal.fire({
-              title: "An Error Occurred",
-              text: err.message || "Something went wrong. Please try again later.",
-              icon: "error",
-            });
-          });
-      })
-      .catch((err) => {
-        Swal.close();
-        Swal.fire({
-          title: "An Error Occurred",
-          text: err.message || "Something went wrong. Please try again later.",
-          icon: "error",
-        });
+    try {
+      Swal.fire({
+        title: "Loading...",
+        text: "Please wait while we process your request.",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
       });
 
-    if (profileImage) {
-      console.log("Profile Image:", profileImage);
+      // Upload profile image
+      const imageFile = { image: data.profileImage[0] };
+      const res = await axiosPublic.post(image_hosting_api, imageFile, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      const photoURL = res.data?.data?.display_url;
+
+      // Create user account
+      const userCredential = await createUser(data.email, data.password);
+      const loggedUser = userCredential.user;
+      console.log("User created:", loggedUser);
+
+      // Update user profile
+      await updateUserProfile(data.fullName, photoURL);
+
+      // Prepare user data for database
+      const userInfo = {
+        name: data.fullName,
+        email: data.email,
+        photoURL: photoURL,
+        role: data.role,
+        created: new Date(),
+        phone: data.phone,
+        gender: data.gender,
+      };
+
+      // Add teacher-specific fields if role is teacher
+      if (data.role === "teacher") {
+        userInfo.classes = [
+          { id: 1, name: "seven", students: 0 },
+          { id: 2, name: "ten", students: 0 },
+          { id: 3, name: "nine", students: 0 },
+          { id: 4, name: "eight", students: 0 },
+          { id: 5, name: "six", students: 0 },
+        ];
+        userInfo.students = 0;
+        userInfo.rating = 0;
+        userInfo.status = "active"; // Add teacher status
+      }
+
+      // Save user to database
+      const dbResponse = await axiosPublic.post("/users", userInfo);
+
+      if (dbResponse.data.insertedId) {
+        reset();
+        Swal.fire({
+          title: "Sign Up Successful!",
+          text: `Welcome ${data.fullName}! Your ${data.role} account has been created.`,
+          icon: "success",
+          timer: 2000,
+        });
+        navigate("/");
+      }
+    } catch (error) {
+      Swal.close();
+      console.error("Signup error:", error);
+      Swal.fire({
+        title: "Registration Failed",
+        text: error.message || "An error occurred during registration. Please try again.",
+        icon: "error",
+      });
     }
   };
 
@@ -136,31 +118,25 @@ const SignUp = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setProfileImage(file);
-    }
-  };
-
   return (
     <div className="min-h-screen pt-6 pb-6 flex justify-center items-center bg-gray-50">
       <Helmet>
-        <title>SignUP || OCMS</title>
+        <title>Sign Up || OCMS</title>
       </Helmet>
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-3xl">
         <div className="flex justify-center">
           <img
             src={logo}
-            alt=""
+            alt="OCMS Logo"
             className="w-20 h-20 rounded-full border justify-center"
           />
         </div>
         <h2 className="text-3xl font-bold text-center text-gray-700 mb-6">
-          Register
+          Create Your Account
         </h2>
+        
         <form onSubmit={handleSubmit(onSubmit)}>
-          {/* Full Name Input */}
+          {/* Full Name */}
           <div className="mb-4 text-gray-800 relative">
             <label htmlFor="fullName" className="block text-gray-600 mb-2">
               Full Name
@@ -171,22 +147,24 @@ const SignUp = () => {
                 type="text"
                 className={`w-full pl-10 pr-4 py-2 border ${
                   errors.fullName ? "border-red-500" : "border-gray-300"
-                } rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-200`}
+                } rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500`}
                 placeholder="Enter your full name"
-                {...register("fullName", { required: "Full Name is required" })}
+                {...register("fullName", { 
+                  required: "Full Name is required",
+                  minLength: {
+                    value: 3,
+                    message: "Name must be at least 3 characters"
+                  }
+                })}
               />
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FaUser className="text-gray-500" />
-              </div>
+              <FaUser className="absolute left-3 top-3 text-gray-500" />
             </div>
             {errors.fullName && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.fullName.message}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{errors.fullName.message}</p>
             )}
           </div>
 
-          {/* Email Input */}
+          {/* Email */}
           <div className="mb-4 text-gray-800 relative">
             <label htmlFor="email" className="block text-gray-600 mb-2">
               Email
@@ -197,28 +175,24 @@ const SignUp = () => {
                 type="email"
                 className={`w-full pl-10 pr-4 py-2 border ${
                   errors.email ? "border-red-500" : "border-gray-300"
-                } rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-200`}
+                } rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500`}
                 placeholder="Enter your email"
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
-                    value: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/,
-                    message: "Invalid email address",
-                  },
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Invalid email address"
+                  }
                 })}
               />
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FaEnvelope className="text-gray-500" />
-              </div>
+              <FaEnvelope className="absolute left-3 top-3 text-gray-500" />
             </div>
             {errors.email && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.email.message}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
             )}
           </div>
 
-          {/* Phone Number Input */}
+          {/* Phone Number */}
           <div className="mb-4 text-gray-800 relative">
             <label htmlFor="phone" className="block text-gray-600 mb-2">
               Phone Number
@@ -229,24 +203,20 @@ const SignUp = () => {
                 type="tel"
                 className={`w-full pl-10 pr-4 py-2 border ${
                   errors.phone ? "border-red-500" : "border-gray-300"
-                } rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-200`}
-                placeholder="Enter your phone number"
+                } rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500`}
+                placeholder="01XXXXXXXXX"
                 {...register("phone", {
-                  required: "Phone Number is required",
+                  required: "Phone number is required",
                   pattern: {
-                    value: /^[0-9]{11}$/,
-                    message: "Invalid phone number",
-                  },
+                    value: /^01[3-9]\d{8}$/,
+                    message: "Invalid Bangladeshi phone number"
+                  }
                 })}
               />
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FaPhone className="text-gray-500" />
-              </div>
+              <FaPhone className="absolute left-3 top-3 text-gray-500" />
             </div>
             {errors.phone && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.phone.message}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
             )}
           </div>
 
@@ -260,26 +230,22 @@ const SignUp = () => {
                 id="gender"
                 className={`w-full pl-10 pr-4 py-2 border ${
                   errors.gender ? "border-red-500" : "border-gray-300"
-                } rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-200`}
+                } rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500`}
                 {...register("gender", { required: "Gender is required" })}
               >
-                <option value="">Select your gender</option>
+                <option value="">Select Gender</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="other">Other</option>
               </select>
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FaVenusMars className="text-gray-500" />
-              </div>
+              <FaVenusMars className="absolute left-3 top-3 text-gray-500" />
             </div>
             {errors.gender && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.gender.message}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{errors.gender.message}</p>
             )}
           </div>
 
-          {/* Password Input */}
+          {/* Password */}
           <div className="mb-6 relative text-gray-800">
             <label htmlFor="password" className="block text-gray-600 mb-2">
               Password
@@ -290,38 +256,31 @@ const SignUp = () => {
                 type={passwordVisible ? "text" : "password"}
                 className={`w-full pl-10 pr-10 py-2 border ${
                   errors.password ? "border-red-500" : "border-gray-300"
-                } rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition duration-200`}
-                placeholder="Enter your password"
+                } rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500`}
+                placeholder="At least 6 characters"
                 {...register("password", {
                   required: "Password is required",
                   minLength: {
                     value: 6,
-                    message: "Password must be at least 6 characters long",
-                  },
+                    message: "Password must be at least 6 characters"
+                  }
                 })}
               />
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FaKey className="text-gray-500" />
-              </div>
-              <div
-                className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+              <FaKey className="absolute left-3 top-3 text-gray-500" />
+              <button
+                type="button"
+                className="absolute right-3 top-3 text-gray-500"
                 onClick={togglePasswordVisibility}
               >
-                {passwordVisible ? (
-                  <FaEyeSlash className="text-gray-500" />
-                ) : (
-                  <FaEye className="text-gray-500" />
-                )}
-              </div>
+                {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+              </button>
             </div>
             {errors.password && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.password.message}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
             )}
           </div>
 
-          {/* Profile Picture Upload */}
+          {/* Profile Picture */}
           <div className="mb-6">
             <label htmlFor="profileImage" className="block text-gray-600 mb-2">
               Profile Picture
@@ -332,30 +291,28 @@ const SignUp = () => {
                 type="file"
                 accept="image/*"
                 {...register("profileImage", {
-                  required: "Profile image is required",
+                  required: "Profile picture is required"
                 })}
                 className="w-full opacity-0 absolute cursor-pointer"
               />
               <label
                 htmlFor="profileImage"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg flex items-center justify-between cursor-pointer hover:border-blue-500 transition-all duration-300"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg flex items-center justify-between cursor-pointer hover:border-blue-500"
               >
                 <span className="text-gray-500">
-                  {watch("profileImage")?.[0]?.name || "Choose a file"}
+                  {watch("profileImage")?.[0]?.name || "Choose profile picture"}
                 </span>
                 <FaUpload className="text-gray-500" />
               </label>
             </div>
             {errors.profileImage && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.profileImage.message}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{errors.profileImage.message}</p>
             )}
           </div>
 
           {/* Role Selection */}
-          <div className="mb-4 text-gray-800">
-            <label className="block text-gray-600 mb-2">Role</label>
+          <div className="mb-6 text-gray-800">
+            <label className="block text-gray-600 mb-2">Register As</label>
             <div className="flex items-center space-x-6">
               <label className="flex items-center space-x-2">
                 <input
@@ -384,18 +341,18 @@ const SignUp = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-amber-500 text-white py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-600 hover:bg-amber-600 transition duration-200"
+            className="w-full bg-amber-500 text-white py-3 px-4 rounded-lg hover:bg-amber-600 transition duration-200 font-medium"
           >
-            Register
+            Create Account
           </button>
 
-          {/* Already have an Account? Section */}
+          {/* Login Link */}
           <div className="mt-6 text-center">
             <p className="text-gray-600">
-              {"Already have an account?"}{" "}
+              Already have an account?{" "}
               <Link
                 to="/auth/login"
-                className="text-green-500 hover:text-blue-600 transition duration-200"
+                className="text-amber-600 hover:text-amber-700 font-medium"
               >
                 Log In
               </Link>

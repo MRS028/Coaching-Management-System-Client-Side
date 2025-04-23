@@ -20,18 +20,18 @@ console.log(isAnyAdmin);
       title: "Are you sure to Log Out?",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#4CAF50", // Green Confirm button
-      cancelButtonColor: "#FF5722", // Red Cancel button
+      confirmButtonColor: "#4CAF50", 
+      cancelButtonColor: "#FF5722", 
       confirmButtonText: "Yes",
       cancelButtonText: "NO",
       customClass: {
-        popup: "bg-gray-800 text-white", // Dark background with white text
-        title: "text-yellow-400", // Yellow title for emphasis
-        content: "text-white", // White text for content
+        popup: "bg-gray-800 text-white", 
+        title: "text-yellow-400", 
+        content: "text-white", 
         confirmButton:
-          "bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded", // Green with hover effect
+          "bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded", 
         cancelButton:
-          "bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded", // Red with hover effect
+          "bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded",
       },
     }).then((result) => {
       if (result.isConfirmed) {
@@ -44,9 +44,9 @@ console.log(isAnyAdmin);
           icon: "success",
           timer: 1500,
           customClass: {
-            popup: "bg-green-600 text-white", // Green background for success
-            title: "text-white", // White title color
-            content: "text-white", // White content text
+            popup: "bg-green-600 text-white", 
+            title: "text-white", 
+            content: "text-white", 
           },
         });
       }
@@ -258,7 +258,7 @@ console.log(isAnyAdmin);
                     </span> */}
                     <button
                       onClick={handleLogOut}
-                      className="btn border-none text-2xl btn-lg bg-red-500 rounded-3xl px-4 py-2 text-white hover:bg-red-700"
+                      className="btn border-none text-sm lg:text-2xl lg:bt-xl btn-sm bg-red-500 rounded-3xl px-4 py-2 text-white hover:bg-red-700"
                     >
                       <FaSignOutAlt size={16} className="mt-1" /> LogOut
                     </button>

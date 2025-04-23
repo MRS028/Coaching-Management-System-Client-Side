@@ -156,13 +156,14 @@ const HomeBanner = () => {
                     <FaChevronRight className="ml-2" />
                   </button>
                 </div>
-                <p className="text-base mt-4 font-bold backdrop-blur-sm text-white p-2 rounded-2xl  sm:text-lg md:text-xl mb-6 sm:mb-8 opacity-95 drop-shadow-md">
+                
+
+              </div>
+              <p className="text-base mt-4 font-bold backdrop-blur-sm text-white p-2 rounded-2xl  sm:text-lg md:text-xl mb-6 sm:mb-8 opacity-95 drop-shadow-md">
                 <Marquee gradient={false} speed={70} pauseOnHover={true}>
                   {slide.description}
                 </Marquee>
               </p>
-
-              </div>
               
             </div>
           </div>

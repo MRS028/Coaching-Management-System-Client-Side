@@ -35,6 +35,7 @@ const DashBoard = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+  console.log(singleUser?.role)
 
   useEffect(() => {
     setMenuOpen(false);
@@ -373,7 +374,7 @@ const DashBoard = () => {
       </div>
 
       {/* Mobile Menu Toggle */}
-      <div className="bg-gradient-to-r md:hidden from-blue-200 to-green-500   w-full sticky top-0 z-50">
+      <div className="bg-gradient-to-r  md:hidden from-blue-200 to-green-500   w-full sticky top-0 z-50">
         <div className="flex items-center">
           <NavLink
             to="/"
@@ -396,11 +397,14 @@ const DashBoard = () => {
 
       {/* Main content area */}
      
-      <div className="flex-1  ml-0 md:ml-64  md:overflow-x-auto">
+      <div className="flex-1   ml-0 md:ml-64  md:overflow-x-auto ">
+        <div className="pb-5">
         <Outlet />
+        </div>
        
         <Footer/>
       </div>
+     
 
       
     </div>
