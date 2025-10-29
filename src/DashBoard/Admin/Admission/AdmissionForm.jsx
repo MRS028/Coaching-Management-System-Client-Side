@@ -228,6 +228,11 @@ const AdmissionForm = () => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="">শ্রেণী নির্বাচন করুন</option>
+                    <option value="9">চতুর্থ শ্রেণী</option>
+                    <option value="9">পঞ্চম শ্রেণী</option>
+                    <option value="9">ষষ্ঠ শ্রেণী</option>
+                    <option value="9">সপ্তম শ্রেণী</option>
+                    <option value="9">অষ্টম শ্রেণী</option>
                     <option value="9">নবম শ্রেণী</option>
                     <option value="10">দশম শ্রেণী</option>
                     <option value="11">একাদশ শ্রেণী</option>

@@ -28,6 +28,9 @@ import TeacherProfile from "../DashBoard/Teacher/Profile/TeacherProfile";
 import AdmissionForm from "../DashBoard/Admin/Admission/AdmissionForm";
 import AdmissionPayment from "../DashBoard/Admin/Admission/AdmissionPayment";
 import AdmissionSuccess from "../DashBoard/Admin/Admission/AdmissionSuccess";
+import EnrollmentPayment from "../Pages/CourseEnrolment/EnrollmentPayment";
+import EnrollmentSuccess from "../Pages/CourseEnrolment/EnrollmentSuccess";
+import ErrorPage from "../Pages/SharedPage/ErrorPage";
 
 // Import new admission pages
 
@@ -68,6 +71,14 @@ const Router = createBrowserRouter([
         path: "enrollmentForm",
         element: <PrivateRoute><EnrollmentForm/></PrivateRoute>
       },
+      {
+    path: "/enrollment/payment",
+    element: <PrivateRoute><EnrollmentPayment/></PrivateRoute>
+},
+{
+    path: "/enrollment/success",
+    element: <PrivateRoute><EnrollmentSuccess/></PrivateRoute>
+},
       {
         path: "",
         element: <AuthLayOut />,
@@ -163,8 +174,8 @@ const Router = createBrowserRouter([
     ],
   },
   {
-    path: "/*",
-    element: <div>Error</div>,
+    path: "*",
+    element: <ErrorPage />,
   },
 ]);
 export default Router;
