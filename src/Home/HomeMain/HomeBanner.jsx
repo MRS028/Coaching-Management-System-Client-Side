@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaArrowRight, FaArrowLeft, FaChevronRight, FaStar, FaChalkboardTeacher, FaUserGraduate, FaAward } from 'react-icons/fa';
 import { Typewriter } from 'react-simple-typewriter';
 import Marquee from 'react-fast-marquee';
+import { Link } from 'react-router-dom';
 
 
 const HomeBanner = () => {
@@ -12,6 +13,7 @@ const HomeBanner = () => {
       description: "বিশ্বস্ত ও অভিজ্ঞ শিক্ষকদের সরাসরি গাইডলাইনে আমাদের বিশেষায়িত কোচিং প্রোগ্রামে অংশগ্রহণ করুন এবং আপনার প্রস্তুতিতে এগিয়ে যান। ...",
       buttonText: "এখনই ভর্তি হও",
       buttonColor: "bg-gradient-to-r from-blue-600 to-green-600",
+      buttonLink: "/register",
       imageUrl: "https://i.ibb.co/0yvBYMhQ/allcoaching.jpg",
       stats: [
         { icon: <FaUserGraduate />, text: "১০০০+ সফল শিক্ষার্থী" },
@@ -25,6 +27,7 @@ const HomeBanner = () => {
       buttonText: "কোর্স ডিটেইলস দেখুন",
       buttonColor: "bg-gradient-to-r from-purple-600 to-pink-600",
       imageUrl: "https://i.ibb.co.com/gbfCxWM1/coaching-all.jpg",
+      buttonLink: "/courses",
       stats: [
         { icon: <FaChalkboardTeacher />, text: "১৫+ অভিজ্ঞ শিক্ষক" },
         { icon: <FaAward />, text: "১০০% প্রমাণিত সিলেবাস" }
@@ -36,6 +39,7 @@ const HomeBanner = () => {
       description: "আমাদের আধুনিক শ্রেণীকক্ষে পড়াশোনা করুন যেখানে সব ধরনের প্রযুক্তিগত সুবিধা রয়েছে ,আমাদের শ্রেণীকক্ষে প্রযুক্তির সাথে আধুনিক শিক্ষা পদ্ধতির সমন্বয়।...",
       buttonText: "সুবিধাগুলো দেখুন",
       buttonColor: "bg-gradient-to-r from-orange-600 to-red-600",
+      buttonLink: "/courses",
       imageUrl: "https://i.ibb.co.com/yFhDBC3W/coaching.jpg",
       stats: [
         { icon: <FaStar />, text: "২৪/৭ স্টাডি সাপোর্ট" },
@@ -47,6 +51,7 @@ const HomeBanner = () => {
       title: "বিশ্বস্ত এবং অভিজ্ঞ শিক্ষকবৃন্দ...",
       description: "আমাদের শিক্ষকগণ প্রতিযোগিতামূলক পরীক্ষায় অভিজ্ঞ,আমাদের শিক্ষকগণ প্রতিযোগিতামূলক পরীক্ষায় অভিজ্ঞ, যারা শিক্ষার্থীদের সাফল্যের পথে পথপ্রদর্শক। ...",
       buttonText: "শিক্ষকদের পরিচিতি",
+      buttonLink: "/teachers",
       buttonColor: "bg-gradient-to-r from-indigo-600 to-blue-600",
       imageUrl: "https://i.ibb.co.com/zTRwNb97/coaching-teachers.jpg",
       stats: [
@@ -151,10 +156,10 @@ const HomeBanner = () => {
                   ))}
                 </div>
                 <div className='flex justify-center md:justify-start'>
-                  <button className={`${slide.buttonColor} text-white  py-3 px-6 sm:py-4 rounded-full font-bold text-base sm:text-lg hover:shadow-lg transition-all transform hover:scale-105 flex items-center`}>
+                  <Link to={"/admission"}><button className={`${slide.buttonColor} text-white  py-3 px-6 sm:py-4 rounded-full font-bold text-base sm:text-lg hover:shadow-lg transition-all transform hover:scale-105 flex items-center`}>
                     {slide.buttonText}
                     <FaChevronRight className="ml-2" />
-                  </button>
+                  </button></Link>
                 </div>
                 
 

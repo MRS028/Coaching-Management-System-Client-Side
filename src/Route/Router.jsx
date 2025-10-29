@@ -25,6 +25,11 @@ import Admission from "../DashBoard/Admin/Admission/Admission";
 import MyClass from "../DashBoard/Teacher/Class/MyClass";
 import STDProgress from "../DashBoard/Teacher/Student/STDProgress";
 import TeacherProfile from "../DashBoard/Teacher/Profile/TeacherProfile";
+import AdmissionForm from "../DashBoard/Admin/Admission/AdmissionForm";
+import AdmissionPayment from "../DashBoard/Admin/Admission/AdmissionPayment";
+import AdmissionSuccess from "../DashBoard/Admin/Admission/AdmissionSuccess";
+
+// Import new admission pages
 
 const Router = createBrowserRouter([
   {
@@ -44,6 +49,18 @@ const Router = createBrowserRouter([
         element: <Contact />,
       },
       {
+        path: "/admission",
+        element: <AdmissionForm />, // Updated to new AdmissionForm
+      },
+      {
+        path: "/admission/payment",
+        element: <AdmissionPayment />, // New payment page
+      },
+      {
+        path: "/admission/success",
+        element: <AdmissionSuccess />, // New success page
+      },
+      {
         path: "/course/:id",
         element: <CourseDetails />,
       },
@@ -59,10 +76,6 @@ const Router = createBrowserRouter([
             path: "/auth/login",
             element: <Login />,
           },
-          // {
-          //   path: "/auth/joinNow",
-          //   element: <JoinNowToggle />,
-          // },
           {
             path: "/auth/signup",
             element: <SignUp />,
@@ -109,7 +122,7 @@ const Router = createBrowserRouter([
       },
       {
         path: "admission",
-        element: <Admission/>,
+        element: <Admission/>, // Keep the admin admission page
       },
       //student dashboard
       {
