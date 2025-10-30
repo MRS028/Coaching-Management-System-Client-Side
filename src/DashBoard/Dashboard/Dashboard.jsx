@@ -165,7 +165,7 @@ const DashBoard = () => {
                 </li>
                 <li>
                   <NavLink
-                    to="/dashboard/admission"
+                    to="/dashboard/admittedStudents"
                     className={({ isActive }) =>
                       isActive
                         ? "bg-amber-500 text-white"

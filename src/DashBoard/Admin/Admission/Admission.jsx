@@ -120,8 +120,8 @@ const Admission = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          paymentStatus: 'paid',
-          status: 'approved',
+          paymentStatus: 'Pending',
+          status: 'Pending',
           paymentDate: new Date().toISOString()
         }),
       });

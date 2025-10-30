@@ -157,7 +157,7 @@ const HomeBanner = () => {
                 </div>
                 <div className='flex justify-center md:justify-start'>
                   <Link to={"/admission"}><button className={`${slide.buttonColor} text-white  py-3 px-6 sm:py-4 rounded-full font-bold text-base sm:text-lg hover:shadow-lg transition-all transform hover:scale-105 flex items-center`}>
-                    {slide.buttonText}
+                    এখনই ভর্তি হও
                     <FaChevronRight className="ml-2" />
                   </button></Link>
                 </div>

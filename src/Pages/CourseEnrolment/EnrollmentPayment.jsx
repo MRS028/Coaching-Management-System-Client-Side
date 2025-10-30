@@ -133,7 +133,7 @@ const EnrollmentPayment = () => {
         paidAmount: totalAmount
       };
 
-      console.log("Sending enrollment data:", enrollmentPayload);
+    //   console.log("Sending enrollment data:", enrollmentPayload);
 
       const response = await axiosSecure.post("/enrollments", enrollmentPayload);
 

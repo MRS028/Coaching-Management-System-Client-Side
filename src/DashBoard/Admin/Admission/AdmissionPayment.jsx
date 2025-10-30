@@ -144,8 +144,8 @@ const AdmissionPayment = () => {
       state: {
         admissionData: {
           ...admissionData,
-          paymentStatus: "paid",
-          status: "approved",
+          paymentStatus: "Pending",
+          status: "Pending",
           paymentDate: paymentDate,
           transactionId: transactionId,
           paymentMethod: paymentMethod,
@@ -182,7 +182,7 @@ const AdmissionPayment = () => {
       // Update payment status in database
       const paymentPayload = {
         paymentStatus: "Pending",
-        status: "approved",
+        status: "Pending",
         paymentDate: paymentDate,
         transactionId: transactionId,
         paymentMethod: paymentMethod,

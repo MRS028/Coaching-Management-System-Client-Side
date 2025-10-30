@@ -312,7 +312,7 @@ const AdmissionPDF = ({ admissionData, course, totalAmount, currentDate }) => (
             ["বুক/মেটেরিয়াল:", "৩০০ টাকা"],
             ["অন্যান্য চার্জ:", "২০০ টাকা"],
             ["মোট পরিশোধিত:", `${totalAmount} টাকা`],
-            ["পেমেন্ট স্ট্যাটাস:", "Paid"],
+            ["পেমেন্ট স্ট্যাটাস:", "Pending"],
           ].map(([label, value], i) => (
             <View style={styles.row} key={i}>
               <Text

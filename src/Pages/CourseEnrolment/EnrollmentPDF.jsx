@@ -217,7 +217,7 @@ const EnrollmentPDF = ({
           </View>
         </View>
         <View style={styles.headerText}>
-          <Text style={styles.title}>অধ্যয়ন কোচিং সেন্টার</Text>
+          <Text style={styles.title}>{"অধ্যয়ন কোচিং সেন্টার  "}</Text>
           <Text style={styles.subtitle}>
             মানসম্মত শিক্ষার জন্য আস্থার ঠিকানা
           </Text>
@@ -228,7 +228,7 @@ const EnrollmentPDF = ({
       </View>
 
       {/* Enrollment Title */}
-      <Text style={styles.receiptTitle}>কোর্স এনরোলমেন্ট কনফার্মেশন রিসিট</Text>
+      <Text style={styles.receiptTitle}>{"কোর্স এনরোলমেন্ট কনফার্মেশন রিসিট  "}    </Text>
 
       {/* Two Column Layout - Student Info & Educational Info */}
       <View style={styles.twoColumnContainer}>
@@ -267,7 +267,7 @@ const EnrollmentPDF = ({
               ["ভার্সন:", enrollmentData.version],
               ["কোর্স নাম:", course.title],
               ["কোর্স ফি:", `${course.fee} টাকা`],
-              ["এনরোলমেন্ট তারিখ:", currentDate],
+              ["এনরোলমেন্ট তারিখ:", `${currentDate} `],
             ].map(([label, value], i) => (
               <View
                 style={[styles.row, i % 2 === 0 ? styles.highlightRow : {}]}
@@ -289,7 +289,7 @@ const EnrollmentPDF = ({
             ["কোর্স ফি:", `${course.fee} টাকা`],
             ["রেজিস্ট্রেশন ফি:", "৫০০ টাকা"],
             ["মোট পরিশোধিত:", `${totalAmount} টাকা`],
-            ["পেমেন্ট স্ট্যাটাস:", "Paid"],
+            ["পেমেন্ট স্ট্যাটাস:", "Pending"],
             [
               "পেমেন্ট মাধ্যম:",
               enrollmentData.paymentMethod === "bkash"

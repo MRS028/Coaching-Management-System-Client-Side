@@ -32,6 +32,7 @@ import EnrollmentPayment from "../Pages/CourseEnrolment/EnrollmentPayment";
 import EnrollmentSuccess from "../Pages/CourseEnrolment/EnrollmentSuccess";
 import ErrorPage from "../Pages/SharedPage/ErrorPage";
 import AdmissionConfirmation from "../DashBoard/Admin/Admission/AdmissionConfirmation";
+import AdmittedtStudent from "../DashBoard/Admin/AdmittedStudent/AdmittedtStudent";
 
 // Import new admission pages
 
@@ -141,8 +142,8 @@ const Router = createBrowserRouter([
         element: <PaymentStd/>,
       },
       {
-        path: "admission",
-        element: <Admission/>, // Keep the admin admission page
+        path: "admittedStudents",
+        element: <AdmittedtStudent/>, // Keep the admin admission page
       },
       //student dashboard
       {
