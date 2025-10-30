@@ -6,17 +6,17 @@ import {
   FaPhone, 
   FaEnvelope, 
   FaSchool, 
-  FaBook,
   FaArrowRight
 } from "react-icons/fa";
 import useCourses from "../../../Hooks/useCourses";
 import useScrolltoTop from "../../../Hooks/useScrolltoTop";
+import AdmissionProgress from "./AdmissionProgress";
 
 const AdmissionForm = () => {
-    useScrolltoTop();
+  useScrolltoTop();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const [courses, refetch] = useCourses();
+  const [courses] = useCourses();
 
   const {
     register,
@@ -27,21 +27,15 @@ const AdmissionForm = () => {
 
   const selectedCourse = courses.find(course => course._id === watch("courseId"));
 
-  const generateAdmissionId = () => {
-    const timestamp = Date.now().toString().slice(-6);
-    const random = Math.random().toString(36).substr(2, 4).toUpperCase();
-    return `ADM${timestamp}${random}`;
-  };
-
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const admissionId = generateAdmissionId();
+      const admissionId = `ADM${Date.now().toString().slice(-6)}${Math.random().toString(36).substr(2, 4).toUpperCase()}`;
       
       const admissionPayload = {
         ...data,
         admissionId,
-        status: "pending",
+        status: "draft",
         admissionDate: new Date().toISOString(),
         courseFee: selectedCourse?.fee || 0,
         paymentStatus: "pending",
@@ -53,33 +47,17 @@ const AdmissionForm = () => {
         createdAt: new Date().toISOString(),
       };
 
-      // Save to database
-      const response = await fetch('http://localhost:5000/admissions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(admissionPayload),
+      // Navigate to confirmation page with form data
+      navigate('/admission/confirm', { 
+        state: { 
+          admissionData: admissionPayload,
+          course: selectedCourse
+        } 
       });
 
-      const result = await response.json();
-
-      if (result.success) {
-        // Navigate to payment page with admission data
-        navigate('/admission/payment', { 
-          state: { 
-            admissionData: admissionPayload,
-            course: selectedCourse
-          } 
-        });
-      } else if (result.error) {
-        throw new Error(result.message);
-      } else {
-        throw new Error('Failed to submit admission application');
-      }
     } catch (error) {
-      console.error('Error submitting admission:', error);
-      alert(`দুঃখিত, ভর্তি ফর্ম জমা দেওয়া যায়নি: ${error.message}`);
+      console.error('Error in admission form:', error);
+      alert(`দুঃখিত, সমস্যা হয়েছে: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -97,6 +75,7 @@ const AdmissionForm = () => {
             আপনার শিক্ষার যাত্রা শুরু করুন আমাদের সাথে
           </p>
         </div>
+        <AdmissionProgress currentStep={1} />
 
         {/* Form Container */}
         <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
@@ -228,11 +207,11 @@ const AdmissionForm = () => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="">শ্রেণী নির্বাচন করুন</option>
-                    <option value="9">চতুর্থ শ্রেণী</option>
-                    <option value="9">পঞ্চম শ্রেণী</option>
-                    <option value="9">ষষ্ঠ শ্রেণী</option>
-                    <option value="9">সপ্তম শ্রেণী</option>
-                    <option value="9">অষ্টম শ্রেণী</option>
+                    <option value="4">চতুর্থ শ্রেণী</option>
+                    <option value="5">পঞ্চম শ্রেণী</option>
+                    <option value="6">ষষ্ঠ শ্রেণী</option>
+                    <option value="7">সপ্তম শ্রেণী</option>
+                    <option value="8">অষ্টম শ্রেণী</option>
                     <option value="9">নবম শ্রেণী</option>
                     <option value="10">দশম শ্রেণী</option>
                     <option value="11">একাদশ শ্রেণী</option>
@@ -320,7 +299,7 @@ const AdmissionForm = () => {
                 disabled={loading}
                 className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
-                {loading ? "জমা দেওয়া হচ্ছে..." : "পরবর্তী ধাপ"}
+                {loading ? "প্রসেসিং..." : "পর্যালোচনা করুন"}
                 <FaArrowRight />
               </button>
             </div>

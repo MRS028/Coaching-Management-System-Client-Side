@@ -31,6 +31,7 @@ import AdmissionSuccess from "../DashBoard/Admin/Admission/AdmissionSuccess";
 import EnrollmentPayment from "../Pages/CourseEnrolment/EnrollmentPayment";
 import EnrollmentSuccess from "../Pages/CourseEnrolment/EnrollmentSuccess";
 import ErrorPage from "../Pages/SharedPage/ErrorPage";
+import AdmissionConfirmation from "../DashBoard/Admin/Admission/AdmissionConfirmation";
 
 // Import new admission pages
 
@@ -56,6 +57,10 @@ const Router = createBrowserRouter([
         element: <AdmissionForm />, // Updated to new AdmissionForm
       },
       {
+        path: "/admission/confirm",
+        element: <AdmissionConfirmation />, // Updated to new AdmissionConfirmation
+      },
+      {
         path: "/admission/payment",
         element: <AdmissionPayment />, // New payment page
       },
@@ -71,6 +76,10 @@ const Router = createBrowserRouter([
         path: "enrollmentForm",
         element: <PrivateRoute><EnrollmentForm/></PrivateRoute>
       },
+      // {
+      //   path: "confirm",
+      //   element: <PrivateRoute><EnrollmentForm/></PrivateRoute>
+      // },
       {
     path: "/enrollment/payment",
     element: <PrivateRoute><EnrollmentPayment/></PrivateRoute>

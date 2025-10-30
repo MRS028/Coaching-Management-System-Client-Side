@@ -1,226 +1,242 @@
-import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
-    FaCheckCircle,
-    FaPrint,
-    FaIdCard,
-    FaPhone,
-    FaEnvelope,
-    FaSchool,
-    FaBook,
-    FaMoneyBillWave,
-    FaHome,
-    FaUserGraduate
-} from 'react-icons/fa';
+  FaCheckCircle,
+  FaDownload,
+  FaIdCard,
+  FaPhone,
+  FaEnvelope,
+  FaSchool,
+  FaMoneyBillWave,
+  FaHome,
+  FaUserGraduate,
+  FaCalendarAlt,
+  FaUniversity,
+  FaPrint,
+} from "react-icons/fa";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import EnrollmentPDF from "./EnrollmentPDF";
+import useScrolltoTop from "../../Hooks/useScrolltoTop";
 
 const EnrollmentSuccess = () => {
-    const location = useLocation();
-    const navigate = useNavigate();
+  const location = useLocation();
+  const navigate = useNavigate();
+  useScrolltoTop();
 
-    const { enrollmentData, course } = location.state || {};
+  const { enrollmentData, course } = location.state || {};
 
-    if (!enrollmentData || !course) {
-        return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                <div className="text-center">
-                    <h2 className="text-2xl font-bold text-red-600 mb-4">ডাটা পাওয়া যায়নি</h2>
-                    <button
-                        onClick={() => navigate('/courses')}
-                        className="px-6 py-2 bg-blue-600 text-white rounded-lg"
-                    >
-                        কোর্স পেজে ফিরে যান
-                    </button>
-                </div>
-            </div>
-        );
-    }
-
-    const handlePrint = () => {
-        const printContent = document.getElementById('enrollment-receipt').innerHTML;
-        const originalContent = document.body.innerHTML;
-
-        document.body.innerHTML = printContent;
-        window.print();
-        document.body.innerHTML = originalContent;
-        window.location.reload();
-    };
-
-    const totalAmount = course.fee + 500;
-
+  if (!enrollmentData || !course) {
     return (
-        <div className="min-h-screen bg-gray-50 py-8">
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Success Message */}
-                <div className="text-center mb-8">
-                    <FaCheckCircle className="text-6xl text-green-500 mx-auto mb-4" />
-                    <h1 className="text-3xl font-bold text-green-800 mb-3">
-                        এনরোলমেন্ট সফলভাবে সম্পন্ন হয়েছে!
-                    </h1>
-                    <p className="text-lg text-gray-600">
-                        আপনাকে স্বাগতম! আপনার কোর্স এনরোলমেন্ট সফলভাবে সম্পন্ন হয়েছে।
-                    </p>
-                </div>
-
-                {/* Printable Receipt */}
-                <div id="enrollment-receipt" className="bg-white rounded-xl shadow-lg p-8 mb-6">
-                    {/* Header for Print */}
-                    <div className="text-center mb-6 border-b pb-4 print:block hidden">
-                        <h2 className="text-2xl font-bold text-gray-800">অধ্যয়ন কোচিং সেন্টার</h2>
-                        <p className="text-gray-600">কোর্স এনরোলমেন্ট কনফার্মেশন রিসিট</p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {/* Student Information */}
-                        <div className="space-y-4">
-                            <div className="flex items-center gap-2 mb-4">
-                                <FaIdCard className="text-blue-600 text-xl" />
-                                <h3 className="text-xl font-semibold text-gray-800">ছাত্র/ছাত্রীর তথ্য</h3>
-                            </div>
-
-                            <div className="space-y-3">
-                                <div className="flex justify-between border-b pb-2">
-                                    <span className="font-medium">স্টুডেন্ট আইডি:</span>
-                                    <span className="font-bold">{enrollmentData.studentID}</span>
-                                </div>
-                                <div className="flex justify-between border-b pb-2">
-                                    <span className="font-medium">পুরো নাম:</span>
-                                    <span>{enrollmentData.name}</span>
-                                </div>
-                                <div className="flex justify-between border-b pb-2">
-                                    <span className="font-medium">ইমেইল:</span>
-                                    <span>{enrollmentData.email}</span>
-                                </div>
-                                <div className="flex justify-between border-b pb-2">
-                                    <span className="font-medium">মোবাইল:</span>
-                                    <span>{enrollmentData.phone}</span>
-                                </div>
-                                <div className="flex justify-between border-b pb-2">
-                                    <span className="font-medium">বয়স:</span>
-                                    <span>{enrollmentData.age}</span>
-                                </div>
-                                <div className="flex justify-between border-b pb-2">
-                                    <span className="font-medium">লিঙ্গ:</span>
-                                    <span>{enrollmentData.gender}</span>
-                                </div>
-                                <div className="flex justify-between border-b pb-2">
-                                    <span className="font-medium">ঠিকানা:</span>
-                                    <span className="text-right">{enrollmentData.address}</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Educational & Payment Information */}
-                        <div className="space-y-6">
-                            {/* Educational Info */}
-                            <div className="space-y-3">
-                                <div className="flex items-center gap-2">
-                                    <FaSchool className="text-green-600" />
-                                    <h4 className="font-semibold text-gray-800">শিক্ষাগত তথ্য</h4>
-                                </div>
-                                <div className="space-y-2">
-                                    <div className="flex justify-between border-b pb-1">
-                                        <span>শিক্ষাপ্রতিষ্ঠান:</span>
-                                        <span>{enrollmentData.schoolName}</span>
-                                    </div>
-                                    <div className="flex justify-between border-b pb-1">
-                                        <span>শ্রেণী:</span>
-                                        <span>{enrollmentData.class}</span>
-                                    </div>
-                                    <div className="flex justify-between border-b pb-1">
-                                        <span>কোর্স:</span>
-                                        <span>{course.title}</span>
-                                    </div>
-                                    <div className="flex justify-between border-b pb-1">
-                                        <span>ভার্সন:</span>
-                                        <span>{enrollmentData.version}</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Payment Info */}
-                            <div className="space-y-3">
-                                <div className="flex items-center gap-2">
-                                    <FaMoneyBillWave className="text-green-600" />
-                                    <h4 className="font-semibold text-gray-800">পেমেন্ট তথ্য</h4>
-                                </div>
-                                <div className="space-y-2 bg-gray-50 p-3 rounded-lg">
-                                    <div className="flex justify-between">
-                                        <span>কোর্স ফি:</span>
-                                        <span>{course.fee} টাকা</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span>রেজিস্ট্রেশন ফি:</span>
-                                        <span>500 টাকা</span>
-                                    </div>
-                                    <div className="flex justify-between border-t pt-1 font-bold">
-                                        <span>মোট:</span>
-                                        <span className="text-green-600">{totalAmount} টাকা</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span>পেমেন্ট স্ট্যাটাস:</span>
-                                        <span className="text-green-600 font-bold">Paid</span>
-                                    </div>
-                                    {enrollmentData.transactionId && (
-                                        <div className="flex justify-between">
-                                            <span>ট্রানজেকশন আইডি:</span>
-                                            <span>{enrollmentData.transactionId}</span>
-                                        </div>
-                                    )}
-                                    {enrollmentData.paymentDate && (
-                                        <div className="flex justify-between">
-                                            <span>পেমেন্ট তারিখ:</span>
-                                            <span>{new Date(enrollmentData.paymentDate).toLocaleDateString('bn-BD')}</span>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Footer Notes */}
-                    <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                        <h4 className="font-semibold text-blue-800 mb-2">পরবর্তী ধাপ:</h4>
-                        <ul className="text-sm text-blue-700 space-y-1">
-                            <li>• আমাদের অফিস থেকে শীঘ্রই আপনার সাথে যোগাযোগ করা হবে</li>
-                            <li>• ক্লাস শুরুর তারিখ ও সময় সম্পর্কে আপনাকে জানানো হবে</li>
-                            <li>• কোর্স সম্পর্কিত যেকোনো তথ্যের জন্য কল করুন: 01966601000</li>
-                            <li>• এই রিসিটটি সংরক্ষণ করুন, ভবিষ্যতে প্রয়োজন হবে</li>
-                        </ul>
-                    </div>
-
-                    {/* Print Date */}
-                    <div className="mt-6 text-center text-sm text-gray-500 border-t pt-4">
-                        প্রিন্টের তারিখ: {new Date().toLocaleDateString('bn-BD')} - {new Date().toLocaleTimeString('bn-BD')}
-                    </div>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button
-                        onClick={handlePrint}
-                        className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center justify-center gap-2"
-                    >
-                        <FaPrint />
-                        রিসিট প্রিন্ট করুন
-                    </button>
-                    <button
-                        onClick={() => navigate("/dashboard/myCourses")}
-                        className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium flex items-center justify-center gap-2"
-                    >
-                        <FaUserGraduate />
-                        আমার কোর্স দেখুন
-                    </button>
-                    <button
-                        onClick={() => navigate("/")}
-                        className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium flex items-center justify-center gap-2"
-                    >
-                        <FaHome />
-                        হোমপেজে ফিরে যান
-                    </button>
-                </div>
-            </div>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-red-600 mb-4">
+            ডাটা পাওয়া যায়নি
+          </h2>
+          <button
+            onClick={() => navigate("/courses")}
+            className="px-6 py-2 bg-blue-600 text-white rounded-lg"
+          >
+            কোর্স পেজে ফিরে যান
+          </button>
         </div>
+      </div>
     );
+  }
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const totalAmount = parseInt(course.fee) + 500;
+  const currentDate = new Date().toLocaleDateString("bn-BD", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 py-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Success Header */}
+        <div className="text-center mb-8">
+          <FaCheckCircle className="text-6xl text-green-500 mx-auto mb-4 animate-bounce" />
+          <h1 className="text-4xl font-bold text-green-800 mb-3">
+            এনরোলমেন্ট সফলভাবে সম্পন্ন হয়েছে!
+          </h1>
+          <p className="text-xl text-gray-600 mb-2">
+            আপনাকে স্বাগতম! আপনার কোর্স এনরোলমেন্ট সফলভাবে সম্পন্ন হয়েছে।
+          </p>
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg inline-block">
+            <strong>স্টুডেন্ট আইডি:</strong> {enrollmentData.studentID}
+            {enrollmentData.admissionId && (
+              <span className="ml-4">
+                <strong>অ্যাডমিশন আইডি:</strong> {enrollmentData.admissionId}
+              </span>
+            )}
+          </div>
+        </div>
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+          <button
+            onClick={() => navigate("/dashboard/myCourses")}
+            className="flex items-center gap-2 px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+          >
+            <FaUserGraduate />
+            আমার কোর্স দেখুন
+          </button>
+
+          <PDFDownloadLink
+            document={
+              <EnrollmentPDF
+                enrollmentData={enrollmentData}
+                course={course}
+                totalAmount={totalAmount}
+                currentDate={currentDate}
+              />
+            }
+            fileName={`enrollment-${enrollmentData.studentID}.pdf`}
+            className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            {({ loading }) => (
+              <>
+                <FaDownload />
+                {loading ? "ডাউনলোড হচ্ছে..." : "পিডিএফ ডাউনলোড"}
+              </>
+            )}
+          </PDFDownloadLink>
+
+          <button
+            onClick={handlePrint}
+            className="flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+          >
+            <FaPrint />
+            প্রিন্ট করুন
+          </button>
+
+          <button
+            onClick={() => navigate("/")}
+            className="flex items-center gap-2 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            <FaHome />
+            হোমপেজে ফিরে যান
+          </button>
+        </div>
+
+        {/* Success Summary Card */}
+        <div className="bg-white rounded-xl shadow-2xl p-8 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+            <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
+              <FaUserGraduate className="text-blue-600 text-2xl mx-auto mb-2" />
+              <p className="text-sm text-gray-600">ছাত্র/ছাত্রীর নাম</p>
+              <p className="font-bold text-gray-800">{enrollmentData.name}</p>
+            </div>
+            <div className="text-center p-4 bg-green-50 rounded-lg border border-green-200">
+              <FaSchool className="text-green-600 text-2xl mx-auto mb-2" />
+              <p className="text-sm text-gray-600">কোর্স</p>
+              <p className="font-bold text-gray-800">{course.title}</p>
+            </div>
+            <div className="text-center p-4 bg-purple-50 rounded-lg border border-purple-200">
+              <FaMoneyBillWave className="text-purple-600 text-2xl mx-auto mb-2" />
+              <p className="text-sm text-gray-600">মোট ফি</p>
+              <p className="font-bold text-gray-800">{totalAmount} টাকা</p>
+            </div>
+            <div className="text-center p-4 bg-orange-50 rounded-lg border border-orange-200">
+              <FaCheckCircle className="text-orange-600 text-2xl mx-auto mb-2" />
+              <p className="text-sm text-gray-600">স্ট্যাটাস</p>
+              <p className="font-bold text-green-600">এনরোলমেন্ট সম্পন্ন</p>
+            </div>
+          </div>
+
+          {/* Payment Confirmation */}
+          <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+            <h4 className="font-semibold text-green-800 mb-3 flex items-center gap-2">
+              <FaCheckCircle className="text-green-600" />
+              পেমেন্ট কনফার্মেশন
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+              <div>
+                <p>
+                  <strong>ট্রানজেকশন আইডি:</strong>{" "}
+                  {enrollmentData.transactionId}
+                </p>
+                <p>
+                  <strong>পেমেন্ট মাধ্যম:</strong>{" "}
+                  {enrollmentData.paymentMethod === "bkash"
+                    ? "বিকাশ"
+                    : enrollmentData.paymentMethod === "nagad"
+                    ? "নগদ"
+                    : enrollmentData.paymentMethod === "bank"
+                    ? "ব্যাংক"
+                    : "নগদ"}
+                </p>
+              </div>
+              <div>
+                <p>
+                  <strong>পেমেন্ট তারিখ:</strong>{" "}
+                  {enrollmentData.paymentDate
+                    ? new Date(enrollmentData.paymentDate).toLocaleDateString(
+                        "bn-BD"
+                      )
+                    : currentDate}
+                </p>
+                <p>
+                  <strong>পরিশোধিত অর্থ:</strong> {totalAmount} টাকা
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Next Steps */}
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+            <h4 className="font-semibold text-yellow-800 mb-3">
+              পরবর্তী ধাপসমূহ:
+            </h4>
+            <ul className="space-y-2 text-sm text-yellow-700">
+              <li className="flex items-start gap-2">
+                <span className="text-yellow-500 mt-1">•</span>
+                <span>
+                  আমাদের অফিস থেকে ২৪ ঘন্টার মধ্যে আপনার সাথে যোগাযোগ করা হবে
+                </span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-yellow-500 mt-1">•</span>
+                <span>
+                  ক্লাস শুরুর তারিখ, সময় ও রুটিন সম্পর্কে আপনাকে জানানো হবে
+                </span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-yellow-500 mt-1">•</span>
+                <span>
+                  এনরোলমেন্ট সম্পর্কিত যেকোনো তথ্যের জন্য কল করুন:{" "}
+                  <strong>01955554414</strong>
+                </span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-yellow-500 mt-1">•</span>
+                <span>
+                  এই কনফার্মেশন রিসিটটি সংরক্ষণ করুন, ভবিষ্যতে প্রয়োজন হবে
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Contact Info */}
+        <div className="text-center p-6 bg-white rounded-lg shadow">
+          <h4 className="font-semibold text-gray-700 mb-2">জরুরি যোগাযোগ</h4>
+          <p className="text-gray-600">
+            <FaPhone className="inline mr-2" />
+            মোবাইল: 01955554414
+          </p>
+          <p className="text-gray-600">
+            <FaEnvelope className="inline mr-2" />
+            ইমেইল: info@oddhayon.com
+          </p>
+          <p className="text-sm text-gray-500 mt-2">সাভার, ঢাকা</p>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default EnrollmentSuccess;
