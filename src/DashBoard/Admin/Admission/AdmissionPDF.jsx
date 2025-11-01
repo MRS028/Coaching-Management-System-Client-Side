@@ -207,6 +207,7 @@ const styles = StyleSheet.create({
 });
 
 const AdmissionPDF = ({ admissionData, course, totalAmount, currentDate }) => (
+  // console.log("Admission Data in PDF:", admissionData) ||
   <Document>
     <Page size="A4" style={styles.page}>
       {/* Watermark */}
@@ -265,14 +266,14 @@ const AdmissionPDF = ({ admissionData, course, totalAmount, currentDate }) => (
           <View style={styles.sectionContainer}>
             <Text style={styles.sectionTitle}>শিক্ষাগত তথ্য</Text>
             {[
-              ["শিক্ষাপ্রতিষ্ঠান:", admissionData.currentInstitution],
-              ["শ্রেণী:", admissionData.classLevel],
-              ["গ্রুপ/বিভাগ:", admissionData.group || "N/A"],
-              ["রোল নং:", admissionData.rollNumber || "N/A"],
-              ["কোর্স নাম:", course.title],
-              ["কোর্স কোড:", course.code || "C-001"],
-              ["কোর্স সময়:", course.duration],
-              ["ভর্তি তারিখ:", `${currentDate}  .`],
+              ["শিক্ষাপ্রতিষ্ঠান: ", admissionData.currentInstitution],
+              ["শ্রেণী: ", admissionData.classLevel],
+              ["গ্রুপ/বিভাগ: ", admissionData.group || "N/A"],
+              ["রোল নং: ", admissionData.rollNumber || "N/A"],
+              ["কোর্স নাম: ", course.title],
+              ["কোর্স কোড:  ", course.code || "C-001"],
+              ["কোর্স সময়: ", course.duration],
+              ["ভর্তি তারিখ: ", `${currentDate}  .`],
             ].map(([label, value], i) => (
               <View
                 style={[styles.row, i % 2 === 0 ? styles.highlightRow : {}]}
@@ -402,7 +403,7 @@ const AdmissionPDF = ({ admissionData, course, totalAmount, currentDate }) => (
 
         <View style={styles.signature}>
           <Text style={{ fontWeight: "bold", fontSize: 10 }}>
-            অভিভাকের স্বাক্ষর
+            অভিভাবকের স্বাক্ষর
           </Text>
           <Text style={{ fontSize: 7, marginBottom: 12 }}>
             তারিখ: {currentDate} .

@@ -385,7 +385,7 @@ const EnrollmentPDF = ({
 
         <View style={styles.signature}>
           <Text style={{ fontWeight: "bold", fontSize: 10 }}>
-            ছাত্র/ছাত্রীর স্বাক্ষর
+            অভিভাবকের স্বাক্ষর 
           </Text>
           <Text style={{ fontSize: 7, marginBottom: 12 }}>
             তারিখ: {currentDate}

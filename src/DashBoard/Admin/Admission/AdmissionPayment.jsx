@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   FaMoneyBillWave,
@@ -25,6 +25,7 @@ const AdmissionPayment = () => {
   const [paymentDate, setPaymentDate] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [paymentNumber, setPaymentNumber] = useState("");
+  
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -192,7 +193,7 @@ const AdmissionPayment = () => {
       };
 
       const response = await fetch(
-        `http://localhost:5000/admissions/${admissionData.admissionId}`,
+        `https://cms-server-side.vercel.app/admissions/${admissionData.admissionId}`,
         {
           method: "PATCH",
           headers: {
@@ -229,9 +230,17 @@ const AdmissionPayment = () => {
   const totalAmount = course.fee + 1000; // Course fee + registration fee
 
   // Get current date in YYYY-MM-DD format for date input
-  const getCurrentDate = () => {
-    return new Date().toISOString().split("T")[0];
-  };
+const getCurrentDate = () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+useEffect(() => {
+  setPaymentDate(getCurrentDate());
+}, []);
 
   if (!admissionData || !course) {
     return (

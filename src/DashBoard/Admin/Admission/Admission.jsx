@@ -1,19 +1,19 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { 
-  FaUser, 
-  FaPhone, 
-  FaEnvelope, 
-  FaSchool, 
-  FaBook, 
+import {
+  FaUser,
+  FaPhone,
+  FaEnvelope,
+  FaSchool,
+  FaBook,
   FaMoneyBillWave,
   FaCreditCard,
   FaCheckCircle,
   FaArrowLeft,
   FaPrint,
   FaIdCard,
-  FaCalendarAlt
+  FaCalendarAlt,
 } from "react-icons/fa";
 import { MdPayment, MdPersonalVideo } from "react-icons/md";
 import useCourses from "../../../Hooks/useCourses";
@@ -30,11 +30,12 @@ const Admission = () => {
     handleSubmit,
     formState: { errors },
     watch,
-    reset
+    reset,
   } = useForm();
 
- 
-  const selectedCourse = courses.find(course => course._id === watch("courseId"));
+  const selectedCourse = courses.find(
+    (course) => course._id === watch("courseId")
+  );
 
   const generateAdmissionId = () => {
     const timestamp = Date.now().toString().slice(-6);
@@ -46,7 +47,7 @@ const Admission = () => {
     setLoading(true);
     try {
       const admissionId = generateAdmissionId();
-      
+
       const admissionPayload = {
         ...data,
         admissionId,
@@ -60,17 +61,20 @@ const Admission = () => {
         batchTime: selectedCourse?.time,
         classDays: selectedCourse?.days,
         createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date().toISOString(),
       };
 
       // Save to database using NEW admission endpoint
-      const response = await fetch('http://localhost:5000/admissions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(admissionPayload),
-      });
+      const response = await fetch(
+        "https://cms-server-side.vercel.app/admissions",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(admissionPayload),
+        }
+      );
 
       const result = await response.json();
 
@@ -80,10 +84,10 @@ const Admission = () => {
       } else if (result.error) {
         throw new Error(result.message);
       } else {
-        throw new Error('Failed to submit admission application');
+        throw new Error("Failed to submit admission application");
       }
     } catch (error) {
-      console.error('Error submitting admission:', error);
+      console.error("Error submitting admission:", error);
       alert(`দুঃখিত, ভর্তি ফর্ম জমা দেওয়া যায়নি: ${error.message}`);
     } finally {
       setLoading(false);
@@ -100,39 +104,42 @@ const Admission = () => {
           await updatePaymentStatus();
           setStep(4); // Move to success step
         } catch (error) {
-          alert('পেমেন্ট স্ট্যাটাস আপডেট করতে সমস্যা হয়েছে।');
+          alert("পেমেন্ট স্ট্যাটাস আপডেট করতে সমস্যা হয়েছে।");
         } finally {
           setLoading(false);
         }
       }, 2000);
     } catch (error) {
-      console.error('Payment error:', error);
-      alert('পেমেন্ট প্রক্রিয়ায় সমস্যা হয়েছে। পরে আবার চেষ্টা করুন।');
+      console.error("Payment error:", error);
+      alert("পেমেন্ট প্রক্রিয়ায় সমস্যা হয়েছে। পরে আবার চেষ্টা করুন।");
       setLoading(false);
     }
   };
 
   const updatePaymentStatus = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/admissions/${admissionData.admissionId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          paymentStatus: 'Pending',
-          status: 'Pending',
-          paymentDate: new Date().toISOString()
-        }),
-      });
-      
+      const response = await fetch(
+        `https://cms-server-side.vercel.app/admissions/${admissionData.admissionId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            paymentStatus: "Pending",
+            status: "Pending",
+            paymentDate: new Date().toISOString(),
+          }),
+        }
+      );
+
       const result = await response.json();
-      
+
       if (!result.success) {
         throw new Error(result.message);
       }
     } catch (error) {
-      console.error('Error updating payment status:', error);
+      console.error("Error updating payment status:", error);
       throw error;
     }
   };
@@ -150,7 +157,7 @@ const Admission = () => {
             <FaUser className="text-blue-600" />
             ব্যক্তিগত তথ্য
           </h3>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               পুরো নাম *
@@ -162,28 +169,32 @@ const Admission = () => {
               placeholder="আপনার পুরো নাম লিখুন"
             />
             {errors.fullName && (
-              <p className="text-red-500 text-sm mt-1">{errors.fullName.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.fullName.message}
+              </p>
             )}
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              ইমেইল *
+              ইমেইল 
             </label>
             <input
               type="email"
-              {...register("email", { 
-                required: "ইমেইল আবশ্যক",
+              {...register("email", {
+                // required: "ইমেইল আবশ্যক",
                 pattern: {
                   value: /^\S+@\S+$/i,
-                  message: "সঠিক ইমেইল দিন"
-                }
+                  message: "সঠিক ইমেইল দিন",
+                },
               })}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="example@email.com"
             />
             {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email.message}
+              </p>
             )}
           </div>
 
@@ -193,18 +204,20 @@ const Admission = () => {
             </label>
             <input
               type="tel"
-              {...register("phone", { 
+              {...register("phone", {
                 required: "মোবাইল নম্বর আবশ্যক",
                 pattern: {
                   value: /^01[3-9]\d{8}$/,
-                  message: "সঠিক মোবাইল নম্বর দিন"
-                }
+                  message: "সঠিক মোবাইল নম্বর দিন",
+                },
               })}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="01XXXXXXXXX"
             />
             {errors.phone && (
-              <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.phone.message}
+              </p>
             )}
           </div>
 
@@ -219,7 +232,9 @@ const Admission = () => {
               placeholder="পিতার নাম লিখুন"
             />
             {errors.fatherName && (
-              <p className="text-red-500 text-sm mt-1">{errors.fatherName.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.fatherName.message}
+              </p>
             )}
           </div>
 
@@ -234,7 +249,9 @@ const Admission = () => {
               placeholder="মাতার নাম লিখুন"
             />
             {errors.motherName && (
-              <p className="text-red-500 text-sm mt-1">{errors.motherName.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.motherName.message}
+              </p>
             )}
           </div>
         </div>
@@ -252,12 +269,16 @@ const Admission = () => {
             </label>
             <input
               type="text"
-              {...register("currentInstitution", { required: "শিক্ষাপ্রতিষ্ঠানের নাম আবশ্যক" })}
+              {...register("currentInstitution", {
+                required: "শিক্ষাপ্রতিষ্ঠানের নাম আবশ্যক",
+              })}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="বিদ্যালয়/কলেজের নাম"
             />
             {errors.currentInstitution && (
-              <p className="text-red-500 text-sm mt-1">{errors.currentInstitution.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.currentInstitution.message}
+              </p>
             )}
           </div>
 
@@ -277,7 +298,9 @@ const Admission = () => {
               <option value="university">বিশ্ববিদ্যালয়</option>
             </select>
             {errors.classLevel && (
-              <p className="text-red-500 text-sm mt-1">{errors.classLevel.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.classLevel.message}
+              </p>
             )}
           </div>
 
@@ -290,14 +313,16 @@ const Admission = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="">কোর্স নির্বাচন করুন</option>
-              {courses.map(course => (
+              {courses.map((course) => (
                 <option key={course._id} value={course._id}>
                   {course.title} - {course.fee} টাকা
                 </option>
               ))}
             </select>
             {errors.courseId && (
-              <p className="text-red-500 text-sm mt-1">{errors.courseId.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.courseId.message}
+              </p>
             )}
           </div>
 
@@ -312,7 +337,9 @@ const Admission = () => {
               placeholder="বিস্তারিত ঠিকানা"
             />
             {errors.address && (
-              <p className="text-red-500 text-sm mt-1">{errors.address.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.address.message}
+              </p>
             )}
           </div>
 
@@ -349,32 +376,63 @@ const Admission = () => {
           ভর্তি তথ্য পর্যালোচনা
         </h3>
         <p className="text-yellow-700">
-          দয়া করে আপনার তথ্যগুলো সঠিক কিনা পরীক্ষা করে নিন। ভুল তথ্য দেওয়া হলে ভর্তি বাতিল হতে পারে।
+          দয়া করে আপনার তথ্যগুলো সঠিক কিনা পরীক্ষা করে নিন। ভুল তথ্য দেওয়া হলে
+          ভর্তি বাতিল হতে পারে।
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="space-y-4">
-          <h4 className="font-semibold text-gray-800 border-b pb-2">ব্যক্তিগত তথ্য</h4>
+          <h4 className="font-semibold text-gray-800 border-b pb-2">
+            ব্যক্তিগত তথ্য
+          </h4>
           <div className="space-y-2">
-            <p><strong>নাম:</strong> {watch("fullName")}</p>
-            <p><strong>ইমেইল:</strong> {watch("email")}</p>
-            <p><strong>মোবাইল:</strong> {watch("phone")}</p>
-            <p><strong>পিতার নাম:</strong> {watch("fatherName")}</p>
-            <p><strong>মাতার নাম:</strong> {watch("motherName")}</p>
-            <p><strong>ঠিকানা:</strong> {watch("address")}</p>
+            <p>
+              <strong>নাম:</strong> {watch("fullName")}
+            </p>
+            <p>
+              <strong>ইমেইল:</strong> {watch("email")}
+            </p>
+            <p>
+              <strong>মোবাইল:</strong> {watch("phone")}
+            </p>
+            <p>
+              <strong>পিতার নাম:</strong> {watch("fatherName")}
+            </p>
+            <p>
+              <strong>মাতার নাম:</strong> {watch("motherName")}
+            </p>
+            <p>
+              <strong>ঠিকানা:</strong> {watch("address")}
+            </p>
           </div>
         </div>
 
         <div className="space-y-4">
-          <h4 className="font-semibold text-gray-800 border-b pb-2">শিক্ষাগত তথ্য</h4>
+          <h4 className="font-semibold text-gray-800 border-b pb-2">
+            শিক্ষাগত তথ্য
+          </h4>
           <div className="space-y-2">
-            <p><strong>শিক্ষাপ্রতিষ্ঠান:</strong> {watch("currentInstitution")}</p>
-            <p><strong>শ্রেণী:</strong> {watch("classLevel")}</p>
-            <p><strong>কোর্স:</strong> {selectedCourse?.title}</p>
-            <p><strong>কোর্স ফি:</strong> {selectedCourse?.fee} টাকা</p>
-            <p><strong>কোর্স সময়:</strong> {selectedCourse?.duration}</p>
-            {selectedCourse?.time && <p><strong>ব্যাচ টাইম:</strong> {selectedCourse.time}</p>}
+            <p>
+              <strong>শিক্ষাপ্রতিষ্ঠান:</strong> {watch("currentInstitution")}
+            </p>
+            <p>
+              <strong>শ্রেণী:</strong> {watch("classLevel")}
+            </p>
+            <p>
+              <strong>কোর্স:</strong> {selectedCourse?.title}
+            </p>
+            <p>
+              <strong>কোর্স ফি:</strong> {selectedCourse?.fee} টাকা
+            </p>
+            <p>
+              <strong>কোর্স সময়:</strong> {selectedCourse?.duration}
+            </p>
+            {selectedCourse?.time && (
+              <p>
+                <strong>ব্যাচ টাইম:</strong> {selectedCourse.time}
+              </p>
+            )}
           </div>
         </div>
       </div>
@@ -388,7 +446,7 @@ const Admission = () => {
           <FaArrowLeft />
           পূর্ববর্তী ধাপ
         </button>
-        
+
         <button
           onClick={handleSubmit(onSubmit)}
           disabled={loading}
@@ -416,8 +474,10 @@ const Admission = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
-          <h4 className="font-semibold text-gray-800 text-lg">পেমেন্ট মাধ্যম নির্বাচন করুন</h4>
-          
+          <h4 className="font-semibold text-gray-800 text-lg">
+            পেমেন্ট মাধ্যম নির্বাচন করুন
+          </h4>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="border-2 border-blue-500 rounded-lg p-4 cursor-pointer hover:bg-blue-50 transition-colors">
               <div className="flex items-center gap-3">
@@ -465,9 +525,16 @@ const Admission = () => {
             <h5 className="font-semibold mb-4">বিকাশের মাধ্যমে পেমেন্ট</h5>
             <div className="space-y-4">
               <div className="bg-gray-50 p-4 rounded-lg">
-                <p className="text-sm text-gray-700 mb-2 font-bold"><strong>বিকাশ নম্বর:</strong> 01966601000</p>
-                <p className="text-sm text-gray-700 mb-2"><strong>টাইপ:</strong> Payment</p>
-                <p className="text-sm text-gray-700"><strong>রেফারেন্স:</strong> আপনার ভর্তি আইডি ({admissionData?.admissionId})</p>
+                <p className="text-sm text-gray-700 mb-2 font-bold">
+                  <strong>বিকাশ নম্বর:</strong> 01966601000
+                </p>
+                <p className="text-sm text-gray-700 mb-2">
+                  <strong>টাইপ:</strong> Payment
+                </p>
+                <p className="text-sm text-gray-700">
+                  <strong>রেফারেন্স:</strong> আপনার ভর্তি আইডি (
+                  {admissionData?.admissionId})
+                </p>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -503,11 +570,15 @@ const Admission = () => {
             <div className="space-y-3">
               <div className="flex justify-between">
                 <span>ভর্তি আইডি:</span>
-                <span className="font-semibold">{admissionData?.admissionId}</span>
+                <span className="font-semibold">
+                  {admissionData?.admissionId}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span>কোর্স ফি:</span>
-                <span className="font-semibold">{selectedCourse?.fee} টাকা</span>
+                <span className="font-semibold">
+                  {selectedCourse?.fee} টাকা
+                </span>
               </div>
               <div className="flex justify-between">
                 <span>রেজিস্ট্রেশন ফি:</span>
@@ -554,25 +625,36 @@ const Admission = () => {
         <p className="text-green-700 mb-4">
           আপনাকে স্বাগতম! আপনার ভর্তি প্রক্রিয়া সফলভাবে সম্পন্ন হয়েছে।
         </p>
-        
+
         <div className="bg-white rounded-lg p-6 text-left max-w-md mx-auto">
           <div className="flex items-center gap-2 mb-4">
             <FaIdCard className="text-blue-600 text-xl" />
             <h4 className="font-semibold text-gray-800 text-lg">ভর্তি তথ্য</h4>
           </div>
           <div className="space-y-2">
-            <p><strong>ভর্তি আইডি:</strong> {admissionData?.admissionId}</p>
-            <p><strong>নাম:</strong> {admissionData?.fullName}</p>
-            <p><strong>কোর্স:</strong> {admissionData?.courseName}</p>
-            <p><strong>মোবাইল:</strong> {admissionData?.phone}</p>
-            <p><strong>স্ট্যাটাস:</strong> <span className="text-green-600">ভর্তি সম্পন্ন</span></p>
+            <p>
+              <strong>ভর্তি আইডি:</strong> {admissionData?.admissionId}
+            </p>
+            <p>
+              <strong>নাম:</strong> {admissionData?.fullName}
+            </p>
+            <p>
+              <strong>কোর্স:</strong> {admissionData?.courseName}
+            </p>
+            <p>
+              <strong>মোবাইল:</strong> {admissionData?.phone}
+            </p>
+            <p>
+              <strong>স্ট্যাটাস:</strong>{" "}
+              <span className="text-green-600">ভর্তি সম্পন্ন</span>
+            </p>
           </div>
         </div>
 
         <div className="mt-6 p-4 bg-blue-50 rounded-lg">
           <p className="text-blue-800 text-sm">
-            <strong>পরবর্তী ধাপ:</strong> আমাদের অফিস থেকে শীঘ্রই আপনার সাথে যোগাযোগ করা হবে। 
-            ক্লাস শুরুর তারিখ ও সময় সম্পর্কে আপনাকে জানানো হবে।
+            <strong>পরবর্তী ধাপ:</strong> আমাদের অফিস থেকে শীঘ্রই আপনার সাথে
+            যোগাযোগ করা হবে। ক্লাস শুরুর তারিখ ও সময় সম্পর্কে আপনাকে জানানো হবে।
           </p>
         </div>
 

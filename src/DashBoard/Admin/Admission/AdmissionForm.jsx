@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { 
-  FaUser, 
-  FaPhone, 
-  FaEnvelope, 
-  FaSchool, 
-  FaArrowRight
+import {
+  FaUser,
+  FaPhone,
+  FaEnvelope,
+  FaSchool,
+  FaArrowRight,
 } from "react-icons/fa";
 import useCourses from "../../../Hooks/useCourses";
 import useScrolltoTop from "../../../Hooks/useScrolltoTop";
@@ -17,6 +17,8 @@ const AdmissionForm = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [courses] = useCourses();
+  const [filteredCourses, setFilteredCourses] = useState([]);
+  const [courseError, setCourseError] = useState("");
 
   const {
     register,
@@ -24,14 +26,73 @@ const AdmissionForm = () => {
     formState: { errors },
     watch,
   } = useForm();
+  const classMapping = {
+    4: ["4", "four", "class 4", "fourth", "৪র্থ", "চতুর্থ"],
+    5: ["5", "five", "class 5", "fifth", "৫ম", "পঞ্চম"],
+    6: ["6", "six", "class 6", "sixth", "৬ষ্ঠ", "ষষ্ঠ"],
+    7: ["7", "seven", "class 7", "seventh", "৭ম", "সপ্তম"],
+    8: ["8", "eight", "class 8", "eighth", "৮ম", "অষ্টম"],
+    9: ["9", "nine", "class 9", "ninth", "৯ম", "নবম"],
+    10: ["10", "ten", "class 10", "tenth", "১০ম", "দশম"],
+    11: ["11", "eleven", "class 11", "eleventh", "১১তম", "একাদশ"],
+    12: ["12", "twelve", "class 12", "twelfth", "১২তম", "দ্বাদশ"],
+    university: ["university", "uni", "graduation", "degree"],
+  };
 
-  const selectedCourse = courses.find(course => course._id === watch("courseId"));
+  useEffect(() => {
+    const selectedClass = watch("classLevel");
+
+    if (selectedClass) {
+      try {
+        const classKeywords = classMapping[selectedClass] || [selectedClass];
+
+        const filtered = courses.filter((course) => {
+          // কোর্সের বিভিন্ন ফিল্ড চেক করুন (title, description, class, category ইত্যাদি)
+          const courseText = `
+          ${course.title?.toLowerCase() || ""}
+          ${course.description?.toLowerCase() || ""}
+          ${course.class?.toLowerCase() || ""}
+          ${course.category?.toLowerCase() || ""}
+          ${course.tags?.join(" ")?.toLowerCase() || ""}
+        `;
+
+          // কিওয়ার্ড ম্যাচ চেক করুন
+          return classKeywords.some((keyword) =>
+            courseText.includes(keyword.toLowerCase())
+          );
+        });
+
+        setFilteredCourses(filtered);
+        setCourseError("");
+
+        // যদি ফিল্টার করার পর কোন কোর্স না থাকে
+        if (filtered.length === 0) {
+          setCourseError(`এই শ্রেণীর জন্য কোন কোর্স পাওয়া যায়নি`);
+        }
+      } catch (error) {
+        setCourseError("কোর্স লোড করতে সমস্যা হয়েছে");
+        setFilteredCourses([]);
+      }
+    } else {
+      // যদি কোন শ্রেণী নির্বাচন না করা থাকে, সব কোর্স দেখাবে
+      setFilteredCourses(courses);
+      setCourseError("");
+    }
+  }, [watch("classLevel"), courses]);
+
+  const selectedCourseId = watch("courseId");
+  const selectedCourse = courses.find(
+    (course) => course._id === watch("courseId")
+  );
 
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const admissionId = `ADM${Date.now().toString().slice(-6)}${Math.random().toString(36).substr(2, 4).toUpperCase()}`;
-      
+      const admissionId = `ADM${Date.now().toString().slice(-6)}${Math.random()
+        .toString(36)
+        .substr(2, 4)
+        .toUpperCase()}`;
+
       const admissionPayload = {
         ...data,
         admissionId,
@@ -48,15 +109,14 @@ const AdmissionForm = () => {
       };
 
       // Navigate to confirmation page with form data
-      navigate('/admission/confirm', { 
-        state: { 
+      navigate("/admission/confirm", {
+        state: {
           admissionData: admissionPayload,
-          course: selectedCourse
-        } 
+          course: selectedCourse,
+        },
       });
-
     } catch (error) {
-      console.error('Error in admission form:', error);
+      console.error("Error in admission form:", error);
       alert(`দুঃখিত, সমস্যা হয়েছে: ${error.message}`);
     } finally {
       setLoading(false);
@@ -87,7 +147,7 @@ const AdmissionForm = () => {
                   <FaUser className="text-blue-600" />
                   ব্যক্তিগত তথ্য
                 </h3>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     পুরো নাম *
@@ -99,28 +159,32 @@ const AdmissionForm = () => {
                     placeholder="আপনার পুরো নাম লিখুন"
                   />
                   {errors.fullName && (
-                    <p className="text-red-500 text-sm mt-1">{errors.fullName.message}</p>
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.fullName.message}
+                    </p>
                   )}
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    ইমেইল *
+                    ইমেইল
                   </label>
                   <input
                     type="email"
-                    {...register("email", { 
-                      required: "ইমেইল আবশ্যক",
+                    {...register("email", {
+                      // required: "ইমেইল আবশ্যক",
                       pattern: {
                         value: /^\S+@\S+$/i,
-                        message: "সঠিক ইমেইল দিন"
-                      }
+                        message: "সঠিক ইমেইল দিন",
+                      },
                     })}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="example@email.com"
                   />
                   {errors.email && (
-                    <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.email.message}
+                    </p>
                   )}
                 </div>
 
@@ -130,18 +194,20 @@ const AdmissionForm = () => {
                   </label>
                   <input
                     type="tel"
-                    {...register("phone", { 
+                    {...register("phone", {
                       required: "মোবাইল নম্বর আবশ্যক",
                       pattern: {
                         value: /^01[3-9]\d{8}$/,
-                        message: "সঠিক মোবাইল নম্বর দিন"
-                      }
+                        message: "সঠিক মোবাইল নম্বর দিন",
+                      },
                     })}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="01XXXXXXXXX"
                   />
                   {errors.phone && (
-                    <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.phone.message}
+                    </p>
                   )}
                 </div>
 
@@ -151,12 +217,16 @@ const AdmissionForm = () => {
                   </label>
                   <input
                     type="text"
-                    {...register("fatherName", { required: "পিতার নাম আবশ্যক" })}
+                    {...register("fatherName", {
+                      required: "পিতার নাম আবশ্যক",
+                    })}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="পিতার নাম লিখুন"
                   />
                   {errors.fatherName && (
-                    <p className="text-red-500 text-sm mt-1">{errors.fatherName.message}</p>
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.fatherName.message}
+                    </p>
                   )}
                 </div>
 
@@ -166,12 +236,16 @@ const AdmissionForm = () => {
                   </label>
                   <input
                     type="text"
-                    {...register("motherName", { required: "মাতার নাম আবশ্যক" })}
+                    {...register("motherName", {
+                      required: "মাতার নাম আবশ্যক",
+                    })}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="মাতার নাম লিখুন"
                   />
                   {errors.motherName && (
-                    <p className="text-red-500 text-sm mt-1">{errors.motherName.message}</p>
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.motherName.message}
+                    </p>
                   )}
                 </div>
               </div>
@@ -189,12 +263,16 @@ const AdmissionForm = () => {
                   </label>
                   <input
                     type="text"
-                    {...register("currentInstitution", { required: "শিক্ষাপ্রতিষ্ঠানের নাম আবশ্যক" })}
+                    {...register("currentInstitution", {
+                      required: "শিক্ষাপ্রতিষ্ঠানের নাম আবশ্যক",
+                    })}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="বিদ্যালয়/কলেজের নাম"
                   />
                   {errors.currentInstitution && (
-                    <p className="text-red-500 text-sm mt-1">{errors.currentInstitution.message}</p>
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.currentInstitution.message}
+                    </p>
                   )}
                 </div>
 
@@ -203,7 +281,9 @@ const AdmissionForm = () => {
                     শ্রেণী *
                   </label>
                   <select
-                    {...register("classLevel", { required: "শ্রেণী নির্বাচন করুন" })}
+                    {...register("classLevel", {
+                      required: "শ্রেণী নির্বাচন করুন",
+                    })}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="">শ্রেণী নির্বাচন করুন</option>
@@ -219,7 +299,9 @@ const AdmissionForm = () => {
                     <option value="university">বিশ্ববিদ্যালয়</option>
                   </select>
                   {errors.classLevel && (
-                    <p className="text-red-500 text-sm mt-1">{errors.classLevel.message}</p>
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.classLevel.message}
+                    </p>
                   )}
                 </div>
 
@@ -227,19 +309,31 @@ const AdmissionForm = () => {
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     কোর্স নির্বাচন করুন *
                   </label>
+
+                  {courseError && (
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-3">
+                      <p className="text-red-600 text-sm">{courseError}</p>
+                    </div>
+                  )}
+
                   <select
-                    {...register("courseId", { required: "কোর্স নির্বাচন করুন" })}
+                    {...register("courseId", {
+                      required: "কোর্স নির্বাচন করুন",
+                    })}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    disabled={!!courseError}
                   >
                     <option value="">কোর্স নির্বাচন করুন</option>
-                    {courses.map(course => (
+                    {filteredCourses.map((course) => (
                       <option key={course._id} value={course._id}>
                         {course.title} - {course.fee} টাকা
                       </option>
                     ))}
                   </select>
                   {errors.courseId && (
-                    <p className="text-red-500 text-sm mt-1">{errors.courseId.message}</p>
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.courseId.message}
+                    </p>
                   )}
                 </div>
 
@@ -254,7 +348,9 @@ const AdmissionForm = () => {
                     placeholder="বিস্তারিত ঠিকানা"
                   />
                   {errors.address && (
-                    <p className="text-red-500 text-sm mt-1">{errors.address.message}</p>
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.address.message}
+                    </p>
                   )}
                 </div>
 
@@ -275,19 +371,25 @@ const AdmissionForm = () => {
             {/* Course Preview */}
             {selectedCourse && (
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <h4 className="font-semibold text-blue-800 mb-2">নির্বাচিত কোর্স:</h4>
+                <h4 className="font-semibold text-blue-800 mb-2">
+                  নির্বাচিত কোর্স:
+                </h4>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                   <div>
-                    <span className="font-medium">কোর্স:</span> {selectedCourse.title}
+                    <span className="font-medium">কোর্স:</span>{" "}
+                    {selectedCourse.title}
                   </div>
                   <div>
-                    <span className="font-medium">ফি:</span> {selectedCourse.fee} টাকা
+                    <span className="font-medium">ফি:</span>{" "}
+                    {selectedCourse.fee} টাকা
                   </div>
                   <div>
-                    <span className="font-medium">সময়:</span> {selectedCourse.duration}
+                    <span className="font-medium">সময়:</span>{" "}
+                    {selectedCourse.duration}
                   </div>
                   <div>
-                    <span className="font-medium">ক্লাস:</span> {selectedCourse.class}
+                    <span className="font-medium">ক্লাস:</span>{" "}
+                    {selectedCourse.class}
                   </div>
                 </div>
               </div>

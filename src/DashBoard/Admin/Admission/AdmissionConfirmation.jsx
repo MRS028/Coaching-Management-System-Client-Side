@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { 
-  FaCheck, 
-  FaEdit, 
+import {
+  FaCheck,
+  FaEdit,
   FaArrowLeft,
   FaUser,
   FaSchool,
   FaMoneyBillWave,
   FaClock,
-  FaArrowRight
+  FaArrowRight,
 } from "react-icons/fa";
 import useScrolltoTop from "../../../Hooks/useScrolltoTop";
 import AdmissionProgress from "./AdmissionProgress";
@@ -26,9 +26,11 @@ const AdmissionConfirmation = () => {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-700 mb-4">ডেটা পাওয়া যায়নি</h2>
-          <button 
-            onClick={() => navigate('/admission')}
+          <h2 className="text-2xl font-bold text-gray-700 mb-4">
+            ডেটা পাওয়া যায়নি
+          </h2>
+          <button
+            onClick={() => navigate("/admission")}
             className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
           >
             ভর্তি ফর্মে ফিরে যান
@@ -48,9 +50,9 @@ const AdmissionConfirmation = () => {
   };
 
   const handleInputChange = (field, value) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -62,32 +64,35 @@ const AdmissionConfirmation = () => {
         ...formData,
         status: "pending",
         paymentStatus: "pending",
-        submittedAt: new Date().toISOString()
+        submittedAt: new Date().toISOString(),
       };
 
-      const response = await fetch('http://localhost:5000/admissions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(submissionData),
-      });
+      const response = await fetch(
+        "https://cms-server-side.vercel.app/admissions",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(submissionData),
+        }
+      );
 
       const result = await response.json();
 
       if (result.insertedId) {
         // Navigate to payment page
-        navigate('/admission/payment', { 
-          state: { 
+        navigate("/admission/payment", {
+          state: {
             admissionData: submissionData,
-            course: course
-          } 
+            course: course,
+          },
         });
       } else {
-        throw new Error('Failed to save admission application');
+        throw new Error("Failed to save admission application");
       }
     } catch (error) {
-      console.error('Error saving admission:', error);
+      console.error("Error saving admission:", error);
       alert(`দুঃখিত, ভর্তি ফর্ম সেভ করা যায়নি: ${error.message}`);
     } finally {
       setLoading(false);
@@ -108,19 +113,19 @@ const AdmissionConfirmation = () => {
             আপনার তথ্য পর্যালোচনা করুন এবং পেমেন্টের জন্য এগিয়ে যান
           </p>
         </div>
-        
+
         <AdmissionProgress currentStep={2} />
 
         {/* Action Buttons */}
         <div className="flex justify-between items-center mb-6">
           <button
-            onClick={() => navigate('/admission')}
+            onClick={() => navigate("/admission")}
             className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
           >
             <FaArrowLeft />
             ফর্মে ফিরে যান
           </button>
-          
+
           {!isEditing ? (
             <button
               onClick={handleEdit}
@@ -149,44 +154,44 @@ const AdmissionConfirmation = () => {
               ব্যক্তিগত তথ্য
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <EditableField 
-                label="পুরো নাম" 
-                value={formData.fullName} 
+              <EditableField
+                label="পুরো নাম"
+                value={formData.fullName}
                 field="fullName"
                 isEditing={isEditing}
                 onChange={handleInputChange}
               />
-              <EditableField 
-                label="ইমেইল" 
-                value={formData.email} 
+              <EditableField
+                label="ইমেইল"
+                value={formData.email}
                 field="email"
                 isEditing={isEditing}
                 onChange={handleInputChange}
               />
-              <EditableField 
-                label="মোবাইল নম্বর" 
-                value={formData.phone} 
+              <EditableField
+                label="মোবাইল নম্বর"
+                value={formData.phone}
                 field="phone"
                 isEditing={isEditing}
                 onChange={handleInputChange}
               />
-              <EditableField 
-                label="পিতার নাম" 
-                value={formData.fatherName} 
+              <EditableField
+                label="পিতার নাম"
+                value={formData.fatherName}
                 field="fatherName"
                 isEditing={isEditing}
                 onChange={handleInputChange}
               />
-              <EditableField 
-                label="মাতার নাম" 
-                value={formData.motherName} 
+              <EditableField
+                label="মাতার নাম"
+                value={formData.motherName}
                 field="motherName"
                 isEditing={isEditing}
                 onChange={handleInputChange}
               />
-              <EditableField 
-                label="ঠিকানা" 
-                value={formData.address} 
+              <EditableField
+                label="ঠিকানা"
+                value={formData.address}
                 field="address"
                 isEditing={isEditing}
                 onChange={handleInputChange}
@@ -202,36 +207,24 @@ const AdmissionConfirmation = () => {
               শিক্ষাগত তথ্য
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <EditableField 
-                label="বর্তমান শিক্ষাপ্রতিষ্ঠান" 
-                value={formData.currentInstitution} 
+              <EditableField
+                label="বর্তমান শিক্ষাপ্রতিষ্ঠান"
+                value={formData.currentInstitution}
                 field="currentInstitution"
                 isEditing={isEditing}
                 onChange={handleInputChange}
               />
-              <InfoField 
-                label="শ্রেণী" 
-                value={getClassLevelText(formData.classLevel)} 
+              <InfoField
+                label="শ্রেণী"
+                value={getClassLevelText(formData.classLevel)}
               />
-              <InfoField 
-                label="কোর্স নাম" 
-                value={course.title} 
-              />
-              <InfoField 
-                label="কোর্স সময়" 
-                value={course.duration} 
-              />
-              <InfoField 
-                label="ব্যাচ সময়" 
-                value={course.time} 
-              />
-              <InfoField 
-                label="ক্লাসের দিন" 
-                value={course.days} 
-              />
-              <EditableField 
-                label="পূর্বের শিক্ষাগত যোগ্যতা" 
-                value={formData.previousQualification || "প্রযোজ্য নয়"} 
+              <InfoField label="কোর্স নাম" value={course.title} />
+              <InfoField label="কোর্স সময়" value={course.duration} />
+              <InfoField label="ব্যাচ সময়" value={course.time} />
+              <InfoField label="ক্লাসের দিন" value={course.days} />
+              <EditableField
+                label="পূর্বের শিক্ষাগত যোগ্যতা"
+                value={formData.previousQualification || "প্রযোজ্য নয়"}
                 field="previousQualification"
                 isEditing={isEditing}
                 onChange={handleInputChange}
@@ -249,12 +242,15 @@ const AdmissionConfirmation = () => {
             </h3>
             <div className="bg-gray-50 rounded-lg p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <InfoField label="কোর্স ফি" value={`${course.fee.toLocaleString()} টাকা`} />
+                <InfoField
+                  label="কোর্স ফি"
+                  value={`${course.fee.toLocaleString()} টাকা`}
+                />
                 <InfoField label="রেজিস্ট্রেশন ফি" value="৫০০ টাকা" />
-                <InfoField 
-                  label="মোট পরিশোধযোগ্য" 
-                  value={`${totalAmount.toLocaleString()} টাকা`} 
-                  highlight 
+                <InfoField
+                  label="মোট পরিশোধযোগ্য"
+                  value={`${totalAmount.toLocaleString()} টাকা`}
+                  highlight
                 />
                 <InfoField label="ভর্তি আইডি" value={formData.admissionId} />
               </div>
@@ -265,7 +261,7 @@ const AdmissionConfirmation = () => {
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-between items-center">
           <button
-            onClick={() => navigate('/admission')}
+            onClick={() => navigate("/admission")}
             className="flex items-center gap-2 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
           >
             <FaArrowLeft />
@@ -302,8 +298,9 @@ const AdmissionConfirmation = () => {
         {/* Important Note */}
         <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
           <p className="text-yellow-800 text-sm text-center">
-            <strong>দ্রষ্টব্য:</strong> পেমেন্ট সম্পন্ন হওয়ার পরেই আপনার ভর্তি প্রক্রিয়া সম্পূর্ণ হবে। 
-            পেমেন্টের পর আপনি ভর্তি কনফার্মেশন রিসিট ডাউনলোড করতে পারবেন।
+            <strong>দ্রষ্টব্য:</strong> পেমেন্ট সম্পন্ন হওয়ার পরেই আপনার ভর্তি
+            প্রক্রিয়া সম্পূর্ণ হবে। পেমেন্টের পর আপনি ভর্তি কনফার্মেশন রিসিট
+            ডাউনলোড করতে পারবেন।
           </p>
         </div>
       </div>
@@ -314,24 +311,34 @@ const AdmissionConfirmation = () => {
 // Helper function to get class level text
 const getClassLevelText = (classLevel) => {
   const classMap = {
-    "4": "চতুর্থ শ্রেণী",
-    "5": "পঞ্চম শ্রেণী",
-    "6": "ষষ্ঠ শ্রেণী",
-    "7": "সপ্তম শ্রেণী",
-    "8": "অষ্টম শ্রেণী",
-    "9": "নবম শ্রেণী",
-    "10": "দশম শ্রেণী",
-    "11": "একাদশ শ্রেণী",
-    "12": "দ্বাদশ শ্রেণী",
-    "university": "বিশ্ববিদ্যালয়"
+    4: "চতুর্থ শ্রেণী",
+    5: "পঞ্চম শ্রেণী",
+    6: "ষষ্ঠ শ্রেণী",
+    7: "সপ্তম শ্রেণী",
+    8: "অষ্টম শ্রেণী",
+    9: "নবম শ্রেণী",
+    10: "দশম শ্রেণী",
+    11: "একাদশ শ্রেণী",
+    12: "দ্বাদশ শ্রেণী",
+    university: "বিশ্ববিদ্যালয়",
   };
   return classMap[classLevel] || classLevel;
 };
 
 // Reusable Editable Field Component
-const EditableField = ({ label, value, field, isEditing, onChange, textarea = false, fullWidth = false }) => (
+const EditableField = ({
+  label,
+  value,
+  field,
+  isEditing,
+  onChange,
+  textarea = false,
+  fullWidth = false,
+}) => (
   <div className={fullWidth ? "md:col-span-2" : ""}>
-    <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+    <label className="block text-sm font-medium text-gray-700 mb-1">
+      {label}
+    </label>
     {isEditing ? (
       textarea ? (
         <textarea
@@ -361,10 +368,16 @@ const EditableField = ({ label, value, field, isEditing, onChange, textarea = fa
 // Reusable Read-only Field Component
 const InfoField = ({ label, value, highlight = false }) => (
   <div>
-    <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
-    <p className={`px-3 py-2 bg-gray-50 rounded-lg border border-gray-200 min-h-[42px] flex items-center ${
-      highlight ? 'text-green-600 font-bold text-lg bg-green-50 border-green-200' : ''
-    }`}>
+    <label className="block text-sm font-medium text-gray-700 mb-1">
+      {label}
+    </label>
+    <p
+      className={`px-3 py-2 bg-gray-50 rounded-lg border border-gray-200 min-h-[42px] flex items-center ${
+        highlight
+          ? "text-green-600 font-bold text-lg bg-green-50 border-green-200"
+          : ""
+      }`}
+    >
       {value}
     </p>
   </div>
