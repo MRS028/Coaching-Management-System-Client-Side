@@ -129,6 +129,8 @@ This project is provided under the ISC license (see `package.json`).
 
 Repository: https://github.com/MRS028/Coaching-Management-System-Client-Side
 
+Live demo: https://oddhayon-coaching-center.netlify.app
+
 If you need help integrating a backend or configuring Firebase, open an issue with details about the problem and any error messages.
 
 ---
